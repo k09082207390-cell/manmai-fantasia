@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.11</title>
+<title>万枚ファンタジア Ver.13</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -29,28 +29,61 @@
 .ruleBook{width:min(780px,96vw);max-height:88vh;overflow:auto;background:#17121c;border:1px solid #ffffff22;border-radius:20px;padding:20px}
 .ruleBook h2{margin-top:0}.ruleRow{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;padding:10px;border-bottom:1px solid #ffffff12;font-size:12px}.ruleRow b{color:#ffe277}
 
+
+.machine{position:relative;overflow:hidden;min-height:260px;padding:8px!important;background:#0b0910!important}
+.machineCab{height:205px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:radial-gradient(circle,#ffffff12,#0008);overflow:hidden}
+.machineCab img{height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px #000)}
+.machineInfo{position:absolute;left:7px;right:7px;bottom:7px;padding:8px 6px;border-radius:9px;background:#08070bd9;backdrop-filter:blur(4px)}
+.machineInfo h3{margin:0;font-size:12px;line-height:1.25}.machineInfo small{font-size:9px;color:#cfc2d7}
+.machine.selected{border-color:#ffe277!important;box-shadow:0 0 26px #ffe27755,inset 0 0 25px #ffe27718}
+.machine.selected:after{content:"SELECTED";position:absolute;top:8px;right:8px;background:#ffe277;color:#241600;font-size:9px;font-weight:1000;padding:5px 8px;border-radius:999px}
+.currentCabWrap{display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:9px;background:#ffffff08;border-radius:14px}
+.currentCabWrap img{width:58px;height:78px;object-fit:contain;filter:drop-shadow(0 4px 6px #000)}
+.currentCabText{font-size:11px;color:#bdb1c4}.currentCabText b{display:block;color:#fff;font-size:14px;margin-bottom:4px}
+@media(max-width:850px){.machine{min-height:230px}.machineCab{height:180px}}
+@media(max-width:600px){.machine{min-height:260px}.machineCab{height:210px}}
+
+
+.howOverlay{position:fixed;inset:0;z-index:95;background:#000e;display:none;align-items:center;justify-content:center;padding:16px}
+.howOverlay.show{display:flex}
+.howBox{width:min(920px,96vw);max-height:94vh;overflow:auto;background:#120d17;border:1px solid #ffe27755;border-radius:20px;padding:14px;box-shadow:0 30px 90px #000}
+.howHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.howHead h2{margin:0;color:#ffe277}
+.howVisual{display:block;width:100%;height:auto;border-radius:13px;border:1px solid #ffffff18}
+.howNote{font-size:11px;color:#bfb3c7;text-align:center;margin:9px 0 2px}
+
 </style></head><body>
+
+<div class="howOverlay" id="howOverlay">
+  <div class="howBox">
+    <div class="howHead"><h2>HOW TO PLAY</h2><button class="secondary" id="closeHow">閉じる</button></div>
+    <img class="howVisual" src="images/howtoplay.png" alt="万枚ファンタジア 遊び方イメージ">
+    <div class="howNote">10枚ドロー → ROLE CHECK → 効果加算 → TOTAL PAYOUT。詳細な成立条件は「役・シナジー一覧」で確認できます。</div>
+  </div>
+</div>
+
 
 <div class="ruleOverlay" id="ruleOverlay"><div class="ruleBook">
 <div style="display:flex;justify-content:space-between;align-items:center"><h2 id="ruleTitle">役・シナジー一覧</h2><button class="secondary" id="closeRules">閉じる</button></div>
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.11 ― ROLE CHECK</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.13 ― LIGHTWEIGHT ASSETS</div>
 <div class="panel"><div class="machines">
-<div class="machine selected" data-m="madoka"><h3>スマスロ マギアレコード</h3><p>穢れ蓄積型。キュゥべえ／ソウルジェム／グリーフシード。</p><span class="tag">穢れ</span> <span class="comp" id="cmadoka"></span></div>
-<div class="machine" data-m="geass"><h3>スマスロ コードギアス</h3><p>連鎖型。ギアス／黒の騎士団／ナイトメア。</p><span class="tag">COMBO</span> <span class="comp" id="cgeass"></span></div>
-<div class="machine" data-m="hokuto"><h3>スマスロ北斗の拳</h3><p>継続型。ユリア／強敵／北斗七星。</p><span class="tag">BATTLE</span> <span class="comp" id="chokuto"></span></div>
-<div class="machine" data-m="basilisk"><h3>バジリスク絆2 天膳</h3><p>人数戦型。甲賀／伊賀／絆でバジリスクタイムへ。</p><span class="tag">甲賀 vs 伊賀</span> <span class="comp" id="cbasilisk"></span></div>
+<div class="machine selected" data-m="madoka"><div class="machineCab"><img src="images/madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
+<div class="machine" data-m="geass"><div class="machineCab"><img src="images/geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
+<div class="machine" data-m="hokuto"><div class="machineCab"><img src="images/hokuto.png" alt="スマスロ北斗の拳 筐体"></div><div class="machineInfo"><h3>スマスロ北斗の拳</h3><small>上位：無想転生バトル</small></div></div>
+<div class="machine" data-m="basilisk"><div class="machineCab"><img src="images/basilisk.png" alt="バジリスク絆2 天膳 筐体"></div><div class="machineInfo"><h3>バジリスク絆2 天膳</h3><small>上位：天膳BT</small></div></div>
 </div></div>
 
 <div class="panel displays"><div class="screen">CREDIT<b id="credit">2,000</b></div><div class="screen">TURN<b id="turn">1</b></div><div class="screen cost">NEXT COST<b id="cost">300</b></div><div class="screen pay">PAYOUT<b id="payout">0</b></div><div class="screen free">FREE<b id="free">0</b></div></div>
 <div class="panel"><div class="state" id="state">穢れ 0 / 100</div><div class="state" id="atState" style="margin-top:8px;color:#80f4aa">NORMAL</div><div class="meter"><div class="fill" id="fill"></div></div></div>
 <div class="panel"><div style="text-align:center;font-weight:900;margin-bottom:8px">BET × TURN で消費</div><div class="bets" id="betArea"><button class="spin" data-bet="100">100 BET</button><button class="spin" data-bet="300">300 BET</button><button class="spin" data-bet="500">500 BET</button></div><div class="legend" style="text-align:center;margin-top:8px">ボタンには現在TURNで実際に消費するBET額を表示　／　FREE DRAWではTURNが進まない</div></div>
+<div class="panel currentCabWrap" id="currentCabWrap"><img id="currentCabImg" src="images/madoka.png" alt="選択中の筐体"><div class="currentCabText"><b id="currentCabName">スマスロ マギアレコード</b><span id="currentCabUpper">上位AT：エンブリオ・イブ覚醒</span></div></div>
 <div class="panel"><h2>10枚ドロー</h2><div class="cards" id="cards"></div></div>
 <div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
 
-<div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
+<div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="how">HOW TO PLAY</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
 <div class="panel legend"><b>GOAL</b>：10,000枚＝万枚突破（続行） → 20,000枚＝COMPLETE。<br><b>上位AT</b>：FREE中に専用カード＋強レア役で昇格。上位AT中はPAYOUT×2。さらに強チェリー＋強スイカ等でPREMIUM化しPAYOUT×3。<br><b>PREMIUM FREEZE</b>：最上位ATへ直行＋大量FREEストック。</div>
 <div class="panel"><h2>ログ</h2><div class="log" id="log">CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。</div></div><div id="ending"></div></div>
 
@@ -61,6 +94,18 @@ const S={bet(){tone(220,.05);tone(330,.05,.03,.05)},flip(){tone(500+Math.random(
 const common=[...Array(18).fill("BEL"),...Array(14).fill("REP"),...Array(6).fill("WCHE"),...Array(2).fill("SCHE"),...Array(5).fill("WSUI"),"SSUI",...Array(5).fill("CHN"),...Array(3).fill("BON")];
 const specs={madoka:["QB","QB","SOUL","SOUL","GRIEF","GRIEF"],geass:["GEASS","GEASS","KNIGHT","KNIGHT","KMF","KMF"],hokuto:["YURIA","YURIA","TOMO","TOMO","SEVEN","SEVEN"],basilisk:["KOGA","KOGA","IGA","IGA","KIZUNA","KIZUNA"]};
 const names={BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
+const cabinetImages={
+ madoka:"images/madoka.png",
+ geass:"images/geass.png",
+ hokuto:"images/hokuto.png",
+ basilisk:"images/basilisk.png"
+};
+const cabinetNames={
+ madoka:"スマスロ マギアレコード",
+ geass:"スマスロ コードギアス",
+ hokuto:"スマスロ北斗の拳",
+ basilisk:"バジリスク絆2 天膳"
+};
 const upperNames={
  madoka:"エンブリオ・イブ覚醒",
  geass:"ギアスラッシュ",
@@ -101,7 +146,12 @@ function renderBetButtons(){
    });
  }
 }
-function ui(){E("credit").textContent=credit.toLocaleString();E("turn").textContent=turn;E("payout").textContent=lastPay.toLocaleString();E("free").textContent=free;E("cost").textContent=(100*turn).toLocaleString()+"〜";
+function updateCabinetDisplay(){
+ if(E("currentCabImg"))E("currentCabImg").src=cabinetImages[machine];
+ if(E("currentCabName"))E("currentCabName").textContent=cabinetNames[machine];
+ if(E("currentCabUpper"))E("currentCabUpper").textContent="上位AT："+upperNames[machine];
+}
+function ui(){updateCabinetDisplay();E("credit").textContent=credit.toLocaleString();E("turn").textContent=turn;E("payout").textContent=lastPay.toLocaleString();E("free").textContent=free;E("cost").textContent=(100*turn).toLocaleString()+"〜";
  let s="",p=0;if(machine==="madoka"){s=`穢れ ${kegare}/100`;p=kegare}if(machine==="geass"){s=`COMBO ×${combo.toFixed(1)}`;p=(combo-1)/2*100}if(machine==="hokuto"){s=battle?`BATTLE ${bchain}連 / ${Math.round(brate*100)}%`:"BATTLE待機";p=battle?brate*100:0}if(machine==="basilisk"){s=bt?`BT 甲賀 ${koga}人 vs 伊賀 ${iga}人`:"BT待機";p=bt?(10-iga)*10:0}E("state").textContent=s;E("fill").style.width=Math.min(100,p)+"%";
  if(rushLevel===2) E("atState").textContent=`🌈 PREMIUM ${upperNames[machine]}`;
  else if(rushLevel===1) E("atState").textContent=`🔥 ${upperNames[machine]}`;
@@ -238,5 +288,5 @@ async function spin(bet=null){
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
 function reset(){rushLevel=0;rushDraws=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";ui()}
-document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
+document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>
