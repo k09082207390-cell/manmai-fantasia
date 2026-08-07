@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.24.1</title>
+<title>万枚ファンタジア Ver.25</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -186,6 +186,19 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 
 
 .arcadeBottomHint{text-align:center;margin:7px 0 0;padding:7px;border-radius:9px;background:#09070c;color:#8e8492;font-size:9px;font-weight:900;letter-spacing:.08em}
+
+/* Ver.25 PLAY CONSOLE */
+.playConsole{position:sticky;bottom:8px;z-index:55;margin-top:8px;padding:9px;border-radius:15px;background:#09070de8;border:1px solid #ffffff25;box-shadow:0 -8px 28px #0009;backdrop-filter:blur(10px)}
+.consoleResult{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 4px 7px;font-weight:1000}
+.consoleResult span{font-size:11px;color:#c8bdcd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.consoleResult strong{font-size:21px;color:#67ff9f;text-shadow:0 0 12px #67ff9f55;white-space:nowrap}
+.consoleButtons{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.consoleBet{min-height:43px!important;border-radius:11px!important;font-weight:1000!important;font-size:12px!important;letter-spacing:.04em}
+.b200{border-color:#4ba7ff66!important}.b600{border-color:#b16cff77!important}.b1000{border-color:#ffd85c88!important;color:#ffe277!important}
+.freeConsole{border-color:#6affad77!important;color:#6affad!important}
+.freeConsole:disabled{opacity:.28!important}
+@media(max-width:650px){.consoleButtons{grid-template-columns:repeat(2,1fr)}.playConsole{bottom:4px}}
+
 </style></head><body>
 <button id="gameMenuBtn" class="gameMenuBtn" onclick="toggleGameMenu()">☰ MENU</button>
 <div id="gameMenu" class="gameMenuOverlay" onclick="if(event.target===this)toggleGameMenu()">
@@ -235,7 +248,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.24.1 ― ARCADE SCREEN FIX</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.25 ― PLAY CONSOLE</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -258,7 +271,19 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
   <div id="drawRoles" class="drawRoles">BETして10枚ドロー</div>
   <div id="drawEvent" class="drawEvent">今回の結果がここに表示されます</div>
 </div>
-<h2 class="drawTitle">10枚ドロー</h2><div class="cards" id="cards"></div></div>
+<h2 class="drawTitle">10枚ドロー</h2><div class="cards" id="cards"></div>
+<div class="playConsole">
+  <div class="consoleResult">
+    <span id="consoleRole">READY</span>
+    <strong id="consolePay">+0</strong>
+  </div>
+  <div class="consoleButtons">
+    <button class="consoleBet b200" onclick="quickBet(200)">200 BET</button>
+    <button class="consoleBet b600" onclick="quickBet(600)">600 BET</button>
+    <button class="consoleBet b1000" onclick="quickBet(1000)">1000 BET</button>
+    <button id="consoleFree" class="consoleBet freeConsole" onclick="quickFree()">FREE DRAW</button>
+  </div>
+</div></div>
 <div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="arcadeBottomHint">▲ 結果を確認して次ゲームへ　　BETボタンは画面上部の操作をそのまま使用</div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
 
 <div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="how">HOW TO PLAY</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
@@ -358,12 +383,38 @@ function toggleGameMenu(){
 }
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&E("gameMenu")?.classList.contains("show"))toggleGameMenu()});
 
+
+function quickBet(amount){
+ if(gameOver)return;
+ // Reuse the original bet selector and spin flow instead of creating new game logic.
+ const btn=[...document.querySelectorAll("[data-bet]")].find(x=>Number(x.dataset.bet)===amount);
+ if(btn){btn.click();return}
+ // Fallback for builds whose original controls use onclick.
+ lastBet=amount;
+ const spinBtn=[...document.querySelectorAll("button")].find(x=>/DRAW|SPIN|BET/i.test(x.textContent||"") && !x.classList.contains("consoleBet"));
+ if(spinBtn)spinBtn.click();
+}
+function quickFree(){
+ if(free<=0)return;
+ const f=E("freebtn");
+ if(f){f.click();return}
+}
+function syncConsole(){
+ if(E("consolePay"))E("consolePay").textContent="+"+(lastPay||0).toLocaleString();
+ if(E("consoleFree")){
+   E("consoleFree").disabled=free<=0;
+   E("consoleFree").textContent=free>0?`FREE DRAW ×${free}`:"FREE DRAW";
+ }
+ if(E("consoleRole")&&E("drawRoles"))E("consoleRole").textContent=E("drawRoles").textContent||"READY";
+}
+
 function syncPlayHUD(){
  if(E("hudCredit"))E("hudCredit").textContent=credit.toLocaleString();
  if(E("hudBet"))E("hudBet").textContent=(lastBet||0).toLocaleString();
  if(E("hudPay"))E("hudPay").textContent=(lastPay||0).toLocaleString();
  if(E("hudTurn"))E("hudTurn").textContent=round;
  if(E("hudState"))E("hudState").textContent=stateNames[gameState]||"通常";
+ syncConsole();
 }
 function summarizeDraw(h){
  if(!E("drawRoles"))return;
@@ -372,6 +423,7 @@ function summarizeDraw(h){
  Object.keys(names).forEach(k=>{let n=ct(h,k);if(n)parts.push(names[k]+"×"+n)});
  specs[machine].forEach(k=>{let n=ct(h,k);if(n)parts.push((names[k]||k)+"×"+n)});
  E("drawRoles").textContent=parts.length?parts.join("　"):"役なし";
+ syncConsole();
 }
 function showOneScreenEvent(r,pay){
  if(!E("drawEvent"))return;
@@ -383,7 +435,7 @@ function showOneScreenEvent(r,pay){
  if(gameState===4)msg.push(upperNames[machine]);
  msg.push("+"+(pay||0).toLocaleString()+"枚");
  E("drawEvent").textContent=msg.join("　｜　");
- syncPlayHUD();
+ syncPlayHUD();syncConsole();
 }
 
 function syncState(){
