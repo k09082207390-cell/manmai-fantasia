@@ -1,12 +1,13 @@
-万枚ファンタジア Ver.22 UPPER AT DRAW
+万枚ファンタジア Ver.23 SINGLE SCREEN
 
-上位AT中の10枚ドローを機種別演出化。
-・マギレコ：エンブリオ・イブ覚醒
-・ギアス：アラムの門
-・北斗：無想転生モード
-・バジリスク：宿怨チャレンジ
-上位AT中はBET後、専用全画面タイトル→10 CARDS DRAW→通常よりゆっくりカード公開。
-PREMIUM時はPREMIUM 10 CARDS DRAW表示。
-Ver.21までの状態背景、SE、GOD、DEAD HAND、ROLE HITも維持。
+狙い：10枚ドロー周辺だけで1ゲームの状況を把握できるようにする。
 
-GitHub: ZIP解凍→中身を全部リポジトリのルートへアップロード→Commit changes。
+追加表示:
+CREDIT / BET / PAYOUT / TURN / STATE
+今回引いたカードの内訳
+成立役・現在状態・今回獲得枚数
+
+Ver.22までの上位AT専用ドロー、状態背景、SE、ROLE HIT、DEAD HAND、GOD演出は維持。
+
+GitHub更新:
+ZIPを解凍 → 中身をリポジトリのルートへアップロード → Commit changes

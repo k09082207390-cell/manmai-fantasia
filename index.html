@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.22</title>
+<title>万枚ファンタジア Ver.23</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -137,6 +137,29 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 @keyframes upperDrawFade{0%,75%{opacity:1}100%{opacity:0}}
 @keyframes upperCardBreath{from{filter:brightness(1)}to{filter:brightness(1.22);transform:translateY(-2px)}}
 
+
+/* Ver.23 SINGLE SCREEN PLAY */
+.playHUD{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:0 0 10px}
+.hudCell{background:#08070b;border:1px solid #ffffff1d;border-radius:11px;text-align:center;padding:8px 5px;min-width:0}
+.hudCell small{display:block;color:#8d8293;font-size:9px;font-weight:1000;letter-spacing:.12em}
+.hudCell b{display:block;margin-top:2px;color:#fff;font-size:clamp(15px,2vw,23px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hudCell:nth-child(1) b{color:#ffe052}.hudCell:nth-child(3) b{color:#59ff9b}.stateCell b{color:#ff8de4}
+.oneScreenResult{display:grid;grid-template-columns:1.15fr 1fr;gap:8px;margin:0 0 10px}
+.drawRoles,.drawEvent{min-height:42px;border-radius:10px;padding:9px 12px;display:flex;align-items:center;font-weight:900;font-size:12px}
+.drawRoles{background:#15101a;border:1px solid #ffffff1d;color:#ddd}
+.drawEvent{background:#211326;border:1px solid #ff70dc33;color:#ffe4f8}
+.drawTitle{margin:8px 0!important;font-size:20px!important}
+@media(min-width:900px){
+ body{overflow-x:hidden}
+ .wrap{max-width:1100px!important}
+ .cards{gap:7px!important}
+ .card{min-height:0!important}
+}
+@media(max-width:650px){
+ .playHUD{grid-template-columns:repeat(3,1fr)}
+ .oneScreenResult{grid-template-columns:1fr}
+}
+
 </style></head><body>
 <div id="upperDrawFX" class="upperDrawFX">
   <div class="upperDrawCore">
@@ -173,7 +196,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.22 ― UPPER AT DRAW</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.23 ― SINGLE SCREEN</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -185,7 +208,18 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div class="panel"><div class="state" id="state">穢れ 0 / 100</div><div class="state" id="atState" style="margin-top:8px;color:#80f4aa">NORMAL</div><div class="meter"><div class="fill" id="fill"></div></div></div>
 <div class="panel"><div style="text-align:center;font-weight:900;margin-bottom:8px">BET × TURN で消費</div><div class="bets" id="betArea"><button class="spin" data-bet="100">100 BET</button><button class="spin" data-bet="300">300 BET</button><button class="spin" data-bet="500">500 BET</button></div><div class="legend" style="text-align:center;margin-top:8px">ボタンには現在TURNで実際に消費するBET額を表示　／　FREE DRAWではTURNが進まない</div></div>
 <div class="panel currentCabWrap" id="currentCabWrap"><img id="currentCabImg" src="madoka.png" alt="選択中の筐体"><div class="currentCabText"><b id="currentCabName">スマスロ マギアレコード</b><span id="currentCabUpper">上位AT：エンブリオ・イブ覚醒</span></div></div>
-<div class="panel"><h2>10枚ドロー</h2><div class="cards" id="cards"></div></div>
+<div class="panel"><div class="playHUD">
+  <div class="hudCell"><small>CREDIT</small><b id="hudCredit">0</b></div>
+  <div class="hudCell"><small>BET</small><b id="hudBet">0</b></div>
+  <div class="hudCell"><small>PAYOUT</small><b id="hudPay">0</b></div>
+  <div class="hudCell"><small>TURN</small><b id="hudTurn">1</b></div>
+  <div class="hudCell stateCell"><small>STATE</small><b id="hudState">通常</b></div>
+</div>
+<div id="oneScreenResult" class="oneScreenResult">
+  <div id="drawRoles" class="drawRoles">BETして10枚ドロー</div>
+  <div id="drawEvent" class="drawEvent">今回の結果がここに表示されます</div>
+</div>
+<h2 class="drawTitle">10枚ドロー</h2><div class="cards" id="cards"></div></div>
 <div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
 
 <div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="how">HOW TO PLAY</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
@@ -231,6 +265,7 @@ const upperNames={
 };
 let rushLevel=0; // 0=normal free, 1=upper AT, 2=premium upper AT
 let rushDraws=0;
+let lastBet=0,lastPay=0;
 let gameState=0; // 0通常 1高確 2BONUS 3AT 4上位AT
 let highLeft=0,bonusLeft=0,atLeft=0;
 const stateNames=["通常","高確","BONUS","AT","上位AT"];
@@ -278,6 +313,35 @@ function stateBanner(main,sub=""){
  setTimeout(()=>b.classList.remove("show"),1550);
 }
 
+
+function syncPlayHUD(){
+ if(E("hudCredit"))E("hudCredit").textContent=credit.toLocaleString();
+ if(E("hudBet"))E("hudBet").textContent=(lastBet||0).toLocaleString();
+ if(E("hudPay"))E("hudPay").textContent=(lastPay||0).toLocaleString();
+ if(E("hudTurn"))E("hudTurn").textContent=round;
+ if(E("hudState"))E("hudState").textContent=stateNames[gameState]||"通常";
+}
+function summarizeDraw(h){
+ if(!E("drawRoles"))return;
+ const names={MISS:"ハズレ",BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",GOD:"GOD"};
+ let parts=[];
+ Object.keys(names).forEach(k=>{let n=ct(h,k);if(n)parts.push(names[k]+"×"+n)});
+ specs[machine].forEach(k=>{let n=ct(h,k);if(n)parts.push((cards[k]?.name||k)+"×"+n)});
+ E("drawRoles").textContent=parts.length?parts.join("　"):"役なし";
+}
+function showOneScreenEvent(r,pay){
+ if(!E("drawEvent"))return;
+ let msg=[];
+ if(r&&r.msg&&r.msg.length)msg.push(r.msg.join(" / "));
+ if(gameState===1)msg.push("高確");
+ if(gameState===2)msg.push("BONUS");
+ if(gameState===3)msg.push("AT");
+ if(gameState===4)msg.push(upperNames[machine]);
+ msg.push("+"+(pay||0).toLocaleString()+"枚");
+ E("drawEvent").textContent=msg.join("　｜　");
+ syncPlayHUD();
+}
+
 function syncState(){
  let s=gameState;
  if(rushLevel>=1)s=4;
@@ -285,7 +349,7 @@ function syncState(){
  if(E("stateBadge"))E("stateBadge").textContent=stateNames[s];
  let info=s===0?"レア役で高確へ。":s===1?`高確 残り${highLeft}G：レア役期待度UP`:s===2?`BONUS 残り${bonusLeft}G：毎ゲームPAYOUT強化`:s===3?`AT 残り${atLeft}G：PAYOUT×1.5`:s===4?`${upperNames[machine]}：PAYOUT×${rushLevel===2?3:2}`:"";
  if(E("stateInfo"))E("stateInfo").textContent=info;
- stateAtmosphere();
+ stateAtmosphere();syncPlayHUD();
 }
 function stateUp(name){
  if(E("stateUpWord"))E("stateUpWord").textContent=name;
@@ -483,9 +547,10 @@ function evalH(h){
  return{base,extra,msg,fr,pr}
 }
 async function spin(bet=null){
- if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;await upperDrawPresentation();S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
+ if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=cost;lastPay=0;syncPlayHUD();lastBet=activeBet;turn++;S.bet()}round++;await upperDrawPresentation();S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
  let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);if(gameState===2){r.base+=150;r.msg.push('BONUS状態 +150')}
  await roleCheck(h,r);
+ summarizeDraw(h);
  await rolePresentation(h);
  processStateBeforePay(h);
  let rarePower=ct(h,"SCHE")+ct(h,"SSUI");
@@ -505,16 +570,16 @@ if(ct(h,"GOD")>0){
  else if(r.fr && rushLevel===0){rushLevel=1;free=Math.max(free,4)}
  let m=activeBet===100?1:activeBet===300?2.7:4.2;
  let statePayMult=gameState===2?1.35:gameState===3?1.5:1;let rushPayMult=rushLevel===2?3:rushLevel===1?2:1;
- let pay=Math.floor(r.base*m*rushPayMult*statePayMult);lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
+ let pay=Math.floor(r.base*m*rushPayMult*statePayMult);lastPay=pay;lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
  log(`<b>ROUND ${round} ${isFree?"FREE":`COST -${cost}`}</b><br>${r.msg.join("<br>")}<br><span class="gold">PAYOUT +${pay.toLocaleString()} / CREDIT ${credit.toLocaleString()}</span>`,r.fr?"hot":"");
  if(!manmai&&credit>=10000){manmai=true;fx("10,000","万枚突破！ COMPLETEまで続行");log("★ 万枚突破！ NEXT TARGET 20,000枚","gold")}
  if(credit>=20000){complete();return}
  if(free===0 && rushLevel>0){log(`${upperNames[machine]} 終了。`);rushLevel=0}
  if(credit<100*turn&&free===0){end();return}
- if(E("freebtn"))E("freebtn").disabled=false;syncState();ui()
+ showOneScreenEvent(r,lastPay);if(E("freebtn"))E("freebtn").disabled=false;syncState();syncPlayHUD();ui()
 }
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
-function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
+function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;lastBet=0;lastPay=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
 document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset();stateAtmosphere()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>
