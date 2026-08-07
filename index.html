@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.13</title>
+<title>万枚ファンタジア Ver.13.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -57,7 +57,7 @@
 <div class="howOverlay" id="howOverlay">
   <div class="howBox">
     <div class="howHead"><h2>HOW TO PLAY</h2><button class="secondary" id="closeHow">閉じる</button></div>
-    <img class="howVisual" src="images/howtoplay.png" alt="万枚ファンタジア 遊び方イメージ">
+    <img class="howVisual" src="howtoplay.png" alt="万枚ファンタジア 遊び方イメージ">
     <div class="howNote">10枚ドロー → ROLE CHECK → 効果加算 → TOTAL PAYOUT。詳細な成立条件は「役・シナジー一覧」で確認できます。</div>
   </div>
 </div>
@@ -68,18 +68,18 @@
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.13 ― LIGHTWEIGHT ASSETS</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.13.1 ― GITHUB ROOT ASSETS</div>
 <div class="panel"><div class="machines">
-<div class="machine selected" data-m="madoka"><div class="machineCab"><img src="images/madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
-<div class="machine" data-m="geass"><div class="machineCab"><img src="images/geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
-<div class="machine" data-m="hokuto"><div class="machineCab"><img src="images/hokuto.png" alt="スマスロ北斗の拳 筐体"></div><div class="machineInfo"><h3>スマスロ北斗の拳</h3><small>上位：無想転生バトル</small></div></div>
-<div class="machine" data-m="basilisk"><div class="machineCab"><img src="images/basilisk.png" alt="バジリスク絆2 天膳 筐体"></div><div class="machineInfo"><h3>バジリスク絆2 天膳</h3><small>上位：天膳BT</small></div></div>
+<div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
+<div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
+<div class="machine" data-m="hokuto"><div class="machineCab"><img src="hokuto.png" alt="スマスロ北斗の拳 筐体"></div><div class="machineInfo"><h3>スマスロ北斗の拳</h3><small>上位：無想転生バトル</small></div></div>
+<div class="machine" data-m="basilisk"><div class="machineCab"><img src="basilisk.png" alt="バジリスク絆2 天膳 筐体"></div><div class="machineInfo"><h3>バジリスク絆2 天膳</h3><small>上位：天膳BT</small></div></div>
 </div></div>
 
 <div class="panel displays"><div class="screen">CREDIT<b id="credit">2,000</b></div><div class="screen">TURN<b id="turn">1</b></div><div class="screen cost">NEXT COST<b id="cost">300</b></div><div class="screen pay">PAYOUT<b id="payout">0</b></div><div class="screen free">FREE<b id="free">0</b></div></div>
 <div class="panel"><div class="state" id="state">穢れ 0 / 100</div><div class="state" id="atState" style="margin-top:8px;color:#80f4aa">NORMAL</div><div class="meter"><div class="fill" id="fill"></div></div></div>
 <div class="panel"><div style="text-align:center;font-weight:900;margin-bottom:8px">BET × TURN で消費</div><div class="bets" id="betArea"><button class="spin" data-bet="100">100 BET</button><button class="spin" data-bet="300">300 BET</button><button class="spin" data-bet="500">500 BET</button></div><div class="legend" style="text-align:center;margin-top:8px">ボタンには現在TURNで実際に消費するBET額を表示　／　FREE DRAWではTURNが進まない</div></div>
-<div class="panel currentCabWrap" id="currentCabWrap"><img id="currentCabImg" src="images/madoka.png" alt="選択中の筐体"><div class="currentCabText"><b id="currentCabName">スマスロ マギアレコード</b><span id="currentCabUpper">上位AT：エンブリオ・イブ覚醒</span></div></div>
+<div class="panel currentCabWrap" id="currentCabWrap"><img id="currentCabImg" src="madoka.png" alt="選択中の筐体"><div class="currentCabText"><b id="currentCabName">スマスロ マギアレコード</b><span id="currentCabUpper">上位AT：エンブリオ・イブ覚醒</span></div></div>
 <div class="panel"><h2>10枚ドロー</h2><div class="cards" id="cards"></div></div>
 <div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
 
@@ -95,10 +95,10 @@ const common=[...Array(18).fill("BEL"),...Array(14).fill("REP"),...Array(6).fill
 const specs={madoka:["QB","QB","SOUL","SOUL","GRIEF","GRIEF"],geass:["GEASS","GEASS","KNIGHT","KNIGHT","KMF","KMF"],hokuto:["YURIA","YURIA","TOMO","TOMO","SEVEN","SEVEN"],basilisk:["KOGA","KOGA","IGA","IGA","KIZUNA","KIZUNA"]};
 const names={BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
 const cabinetImages={
- madoka:"images/madoka.png",
- geass:"images/geass.png",
- hokuto:"images/hokuto.png",
- basilisk:"images/basilisk.png"
+ madoka:"madoka.png",
+ geass:"geass.png",
+ hokuto:"hokuto.png",
+ basilisk:"basilisk.png"
 };
 const cabinetNames={
  madoka:"スマスロ マギアレコード",
