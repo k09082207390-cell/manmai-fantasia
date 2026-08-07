@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.28</title>
+<title>万枚ファンタジア Ver.28.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -279,7 +279,7 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28 ― 600 DECK / FINAL ZONE</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28.1 ― 600 DECK FIX</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -508,10 +508,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&E("gameMenu")?.clas
 
 function quickBet(amount){
  if(gameOver)return;
- const original=[...document.querySelectorAll("[data-bet]")].find(x=>Number(x.dataset.bet)===amount);
- if(original){original.click();return}
- // Existing game spin accepts a bet amount in this build.
- if(typeof spin==="function"){spin(amount);return}
+ if(typeof spin==="function")spin(amount);
 }
 function quickFree(){
  if(free<=0)return;
@@ -549,11 +546,18 @@ function syncTurnSystem(){
  document.body.classList.toggle("finalZone",round>=16&&round<=20);
  const vals=betTable();
  const cbs=[...document.querySelectorAll(".consoleButtons .consoleBet")].filter(x=>!x.classList.contains("freeConsole"));
+ const topBets=[...document.querySelectorAll("button.spin")];
  cbs.forEach((b,i)=>{
    if(vals[i]){
      b.textContent=vals[i].toLocaleString()+" BET";
      b.dataset.dynamicBet=vals[i];
      b.onclick=()=>quickBet(vals[i]);
+   }
+ });
+ topBets.forEach((b,i)=>{
+   if(vals[i]){
+     b.textContent=vals[i].toLocaleString()+" BET";
+     b.onclick=()=>spin(vals[i]);
    }
  });
 }
@@ -793,7 +797,7 @@ function evalH(h){
  return{base,extra,msg,fr,pr}
 }
 async function spin(bet=null){
- if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=cost;lastPay=0;syncPlayHUD();lastBet=activeBet;turn++;S.bet()}round++;await upperDrawPresentation();S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
+ if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet;if(!activeBet||credit<cost){log(`CREDIT不足：${cost.toLocaleString()}枚必要`);return;}credit-=cost;lastBet=activeBet;lastPay=0;syncPlayHUD();turn++;S.bet()}round++;await upperDrawPresentation();S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
  let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);if(gameState===2){r.base+=150;r.msg.push('BONUS状態 +150')}
  await roleCheck(h,r);
  summarizeDraw(h);
