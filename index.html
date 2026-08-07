@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.26</title>
+<title>万枚ファンタジア Ver.28</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -214,6 +214,17 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 @keyframes recordPop{0%{transform:scale(4);opacity:0}22%{transform:scale(.8);opacity:1}38%{transform:scale(1.12)}82%{opacity:1}100%{transform:scale(1.08);opacity:0}}
 @keyframes recordFade{0%,82%{opacity:1}100%{opacity:0}}
 
+
+/* Ver.28 600 DECK / TURN BET / FINAL ZONE */
+.playHUD{grid-template-columns:repeat(7,1fr)!important}
+.zoneCell b{color:#70d8ff!important}
+body.finalZone .zoneCell{border-color:#ff525288!important;box-shadow:0 0 20px #ff303044}
+body.finalZone .zoneCell b{color:#ff7777!important;animation:zoneBlink .7s ease-in-out infinite alternate}
+body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
+.betStageNote{text-align:center;font-size:10px;color:#a89dad;font-weight:900;margin:5px 0 0}
+@keyframes zoneBlink{from{opacity:.6}to{opacity:1;text-shadow:0 0 14px #ff4545}}
+@media(max-width:800px){.playHUD{grid-template-columns:repeat(4,1fr)!important}}
+
 </style></head><body>
 <div id="recordFX" class="recordFX">
  <div id="recordFXTitle" class="recordFXTitle"></div>
@@ -268,7 +279,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.26 ― RECORDS & COMPLETE</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28 ― 600 DECK / FINAL ZONE</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -286,6 +297,8 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
   <div class="hudCell"><small>PAYOUT</small><b id="hudPay">0</b></div>
   <div class="hudCell"><small>TURN</small><b id="hudTurn">1</b></div>
   <div class="hudCell stateCell"><small>STATE</small><b id="hudState">通常</b></div>
+  <div class="hudCell"><small>DECK</small><b id="hudDeck">600</b></div>
+  <div class="hudCell zoneCell"><small>ZONE</small><b id="hudZone">OPENING</b></div>
 </div>
 <div id="oneScreenResult" class="oneScreenResult">
   <div id="drawRoles" class="drawRoles">BETして10枚ドロー</div>
@@ -303,7 +316,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
     <span id="consoleRole">READY</span>
     <strong id="consolePay">+0</strong>
   </div>
-  <div class="consoleButtons">
+  <div id="betStageNote" class="betStageNote">TURN 1–5 BET</div><div class="consoleButtons">
     <button class="consoleBet b200" onclick="quickBet(200)">200 BET</button>
     <button class="consoleBet b600" onclick="quickBet(600)">600 BET</button>
     <button class="consoleBet b1000" onclick="quickBet(1000)">1000 BET</button>
@@ -331,7 +344,17 @@ const S={
  freeze(){tone(70,.55,.08,0,"sawtooth");tone(950,.5,.05,.4)},
  premium(){[100,330,550,880,1320].forEach((f,i)=>tone(f,.2,.05,i*.1))}
 };
-const common=[...Array(12).fill("BEL"),...Array(9).fill("REP"),...Array(5).fill("WCHE"),...Array(2).fill("SCHE"),...Array(4).fill("WSUI"),"SSUI",...Array(4).fill("CHN"),...Array(3).fill("BON"),...Array(13).fill("MISS"),"GOD"];
+const common=[
+...Array(150).fill("BEL"),
+...Array(120).fill("REP"),
+...Array(60).fill("MISS"),
+...Array(60).fill("WCHE"),
+...Array(10).fill("SCHE"),
+...Array(50).fill("WSUI"),
+...Array(10).fill("SSUI"),
+...Array(50).fill("CHN"),
+...Array(30).fill("BON")
+];
 const specs={madoka:["QB","QB","SOUL","SOUL","GRIEF","GRIEF"],geass:["GEASS","GEASS","KNIGHT","KNIGHT","KMF","KMF"],hokuto:["YURIA","YURIA","TOMO","TOMO","SEVEN","SEVEN"],basilisk:["KOGA","KOGA","IGA","IGA","KIZUNA","KIZUNA"]};
 const cardImages={"BEL":"card_bel_v19.png","REP":"card_rep_v19.png","WCHE":"card_wche_v19.png","SCHE":"card_sche_v19.png","WSUI":"card_wsui_v19.png","SSUI":"card_ssui_v19.png","CHN":"card_chn_v19.png","BON":"card_bon_v19.png","QB":"card_qb_v19.png","SOUL":"card_soul_v19.png","GRIEF":"card_grief_v19.png","GEASS":"card_geass_v19.png","KNIGHT":"card_knight_v19.png","KMF":"card_kmf_v19.png","YURIA":"card_yuria_v19.png","TOMO":"card_tomo_v19.png","SEVEN":"card_seven_v19.png","KOGA":"card_koga_v19.png","IGA":"card_iga_v19.png","KIZUNA":"card_kizuna_v19.png","MISS":"card_miss_v19.png","GOD":"card_god_v19.png"};
 const names={GOD:"GOD",MISS:"ハズレ",BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
@@ -420,7 +443,19 @@ function checkRecords(){
 }
 
 let machine="madoka",deck=[],credit=2000,turn=1,lastPay=0,free=0,lastBet=300,kegare=0,combo=1,battle=false,bchain=0,brate=.66,koga=10,iga=10,bt=false,gameOver=false,manmai=false,round=0;
-function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){deck=sh([...common,...specs[machine]])}function ct(h,x){return h.filter(v=>v===x).length}function take(){if(deck.length<10)newDeck();return deck.splice(0,10)}
+function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){
+ const s=specs[machine];
+ deck=sh([...common,...Array(20).fill(s[0]),...Array(20).fill(s[1]),...Array(20).fill(s[2])]);
+}function ct(h,x){return h.filter(v=>v===x).length}function take(){
+ if(deck.length<10)newDeck();
+ let hand=deck.splice(0,10);
+ // GOD is no longer inside the deck. Independent ultra-rare lottery: 1/1500 per game.
+ if(Math.floor(Math.random()*1500)===0){
+   const replaceIndex=Math.floor(Math.random()*hand.length);
+   hand[replaceIndex]="GOD";
+ }
+ return hand;
+}
 function log(s,c=""){E("log").innerHTML=`<span class="${c}">${s}</span><hr style="border-color:#2b2430;border-width:1px 0 0">`+E("log").innerHTML}
 async function reveal(h){E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");for(let i=0;i<10;i++){S.flip();let x=h[i],sl=E("cards").children[i];sl.outerHTML=`<div class="card ${x}"><img class="cardArt" src="${cardImages[x]}" alt="${names[x]}" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'"><div class="cardFallback" style="display:none">${names[x]}<small>${x}</small></div></div>`;if(x==="SCHE"||x==="SSUI"){S.rare();await sleep(130)}await sleep(i===9?170:85)}}
 async function synfx(){S.hit();E("syn").classList.remove("show");void E("syn").offsetWidth;E("syn").classList.add("show");await sleep(600)}
@@ -473,13 +508,10 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&E("gameMenu")?.clas
 
 function quickBet(amount){
  if(gameOver)return;
- // Reuse the original bet selector and spin flow instead of creating new game logic.
- const btn=[...document.querySelectorAll("[data-bet]")].find(x=>Number(x.dataset.bet)===amount);
- if(btn){btn.click();return}
- // Fallback for builds whose original controls use onclick.
- lastBet=amount;
- const spinBtn=[...document.querySelectorAll("button")].find(x=>/DRAW|SPIN|BET/i.test(x.textContent||"") && !x.classList.contains("consoleBet"));
- if(spinBtn)spinBtn.click();
+ const original=[...document.querySelectorAll("[data-bet]")].find(x=>Number(x.dataset.bet)===amount);
+ if(original){original.click();return}
+ // Existing game spin accepts a bet amount in this build.
+ if(typeof spin==="function"){spin(amount);return}
 }
 function quickFree(){
  if(free<=0)return;
@@ -495,13 +527,44 @@ function syncConsole(){
  if(E("consoleRole")&&E("drawRoles"))E("consoleRole").textContent=E("drawRoles").textContent||"READY";
 }
 
+
+function turnZone(){
+ if(round<=5)return "OPENING";
+ if(round<=10)return "MIDDLE";
+ if(round<=15)return "BATTLE";
+ if(round<=20)return "FINAL ZONE";
+ return "LIMIT BREAK";
+}
+function betTable(){
+ if(round<=5)return [100,300,500];
+ if(round<=10)return [200,600,1000];
+ if(round<=15)return [300,900,1500];
+ if(round<=20)return [500,1500,2500];
+ return [700,2100,3500];
+}
+function syncTurnSystem(){
+ const zone=turnZone();
+ if(E("hudDeck"))E("hudDeck").textContent=deck.length;
+ if(E("hudZone"))E("hudZone").textContent=zone;if(E("betStageNote"))E("betStageNote").textContent=`${zone} / TURN ${round} BET`;
+ document.body.classList.toggle("finalZone",round>=16&&round<=20);
+ const vals=betTable();
+ const cbs=[...document.querySelectorAll(".consoleButtons .consoleBet")].filter(x=>!x.classList.contains("freeConsole"));
+ cbs.forEach((b,i)=>{
+   if(vals[i]){
+     b.textContent=vals[i].toLocaleString()+" BET";
+     b.dataset.dynamicBet=vals[i];
+     b.onclick=()=>quickBet(vals[i]);
+   }
+ });
+}
+
 function syncPlayHUD(){
  if(E("hudCredit"))E("hudCredit").textContent=credit.toLocaleString();
  if(E("hudBet"))E("hudBet").textContent=(lastBet||0).toLocaleString();
  if(E("hudPay"))E("hudPay").textContent=(lastPay||0).toLocaleString();
  if(E("hudTurn"))E("hudTurn").textContent=round;
  if(E("hudState"))E("hudState").textContent=stateNames[gameState]||"通常";
- syncConsole();syncRecords();
+ syncConsole();syncRecords();syncTurnSystem();
 }
 function summarizeDraw(h){
  if(!E("drawRoles"))return;
@@ -632,7 +695,7 @@ const ruleCommon=[
  ["強スイカ","1枚から強レア役"],
  ["チャンス目×4","PAYOUT＋FREE DRAW"],
  ["BONUS×2","BONUS＋FREE DRAW"],
- ["リプレイ×7","FREE DRAW"],["GOD","確定役：大量PAYOUT＋PREMIUM上位AT＋FREE×8"],["ハズレ（ヤムチャ）×3","DEAD HAND：+1200＋FREE×2"]
+ ["リプレイ×7","FREE DRAW"],["GOD","別枠抽選 1/1500：大量PAYOUT＋PREMIUM上位AT＋FREE×8"],["ハズレ（ヤムチャ）×3","DEAD HAND：+1200＋FREE×2"]
 ];
 const machineRules={
  madoka:[
