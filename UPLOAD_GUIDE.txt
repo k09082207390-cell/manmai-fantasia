@@ -1,10 +1,7 @@
-万枚ファンタジア Ver.14 IMAGE DECK
-
-GitHubの manmai-fantasia リポジトリで Add file → Upload files。
-このフォルダ内のファイルを全部アップロードして Commit changes してください。
-すべてルート直下に置く構成なので、images フォルダは不要です。
-
-Ver.14:
-- 共通カード8種を画像カード化
-- 4機種×専用3種＝12種を画像カード化
-- 既存ルール・BET・FREE・ROLE CHECKは維持
+万枚ファンタジア Ver.16 BASIC DECK REVOLUTION
+・基本役カードをユーザー提供素材へ更新
+・チャンス目＝リール停止形画像
+・ハズレ＝ヤムチャ
+・確定役＝GOD
+・ROLE CHECKにGOD/ハズレ表示を追加
+GitHub: ZIPを解凍し、全ファイルをリポジトリのルートへアップロード→同名上書き→Commit changes。

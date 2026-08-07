@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.14</title>
+<title>万枚ファンタジア Ver.16</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -58,7 +58,7 @@
 .card .cardFallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:7px}
 @media(max-width:600px){.card{min-height:135px!important}.card img.cardArt{min-height:135px}}
 
-</style></head><body>
+.roleFxPanel{border-color:#ffe27755!important;background:linear-gradient(180deg,#211627,#151019)!important}.roleFxHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:1000}.roleFxHead span{font-size:22px;letter-spacing:.12em;color:#ffe277;text-shadow:0 0 16px #ffe27766}.roleFxHead b{font-size:12px;color:#70ffad;border:1px solid #70ffad55;padding:5px 10px;border-radius:999px}.roleFxRows{display:grid;gap:7px}.roleFxRow{display:grid;grid-template-columns:minmax(120px,1.1fr) 1fr auto;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:#09070dbd;border:1px solid #ffffff12}.roleFxName{font-weight:900}.roleFxMeter{height:8px;background:#ffffff12;border-radius:999px;overflow:hidden}.roleFxMeter i{display:block;height:100%;background:linear-gradient(90deg,#8f5cff,#ffe277);border-radius:999px}.roleFxResult{font-size:11px;font-weight:1000}.roleFxRow.hit{border-color:#ffe27788;box-shadow:0 0 16px #ffe27720}.roleFxRow.hit .roleFxResult{color:#ffe277}.roleFxRow.special{border-color:#61c7ff88}.roleFxRow.special .roleFxResult{color:#61c7ff}.roleFxEmpty{text-align:center;color:#9d91a5;font-size:12px;padding:10px}.card.roleUsed{box-shadow:0 0 0 3px #ffe277,0 0 24px #ffe27788!important;transform:translateY(-3px)}</style></head><body>
 
 <div class="howOverlay" id="howOverlay">
   <div class="howBox">
@@ -74,7 +74,7 @@
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.14 ― IMAGE DECK</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.16 ― BASIC DECK REVOLUTION</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -99,8 +99,8 @@ let soundOn=true,ctx=null;function tone(f,d=.08,g=.035,w=0,t="triangle"){if(!sou
 const S={bet(){tone(220,.05);tone(330,.05,.03,.05)},flip(){tone(500+Math.random()*80,.035,.018)},rare(){tone(170,.12,.055,0,"sawtooth");tone(700,.15,.03,.07)},hit(){tone(650,.08,.04);tone(900,.12,.04,.07)},free(){[650,850,1100].forEach((f,i)=>tone(f,.12,.045,i*.06))},freeze(){tone(70,.55,.08,0,"sawtooth");tone(950,.5,.05,.4)},premium(){[100,330,550,880,1320].forEach((f,i)=>tone(f,.2,.05,i*.1))}};
 const common=[...Array(18).fill("BEL"),...Array(14).fill("REP"),...Array(6).fill("WCHE"),...Array(2).fill("SCHE"),...Array(5).fill("WSUI"),"SSUI",...Array(5).fill("CHN"),...Array(3).fill("BON")];
 const specs={madoka:["QB","QB","SOUL","SOUL","GRIEF","GRIEF"],geass:["GEASS","GEASS","KNIGHT","KNIGHT","KMF","KMF"],hokuto:["YURIA","YURIA","TOMO","TOMO","SEVEN","SEVEN"],basilisk:["KOGA","KOGA","IGA","IGA","KIZUNA","KIZUNA"]};
-const cardImages={"BEL": "card_bel.png", "REP": "card_rep.png", "WCHE": "card_wche.png", "SCHE": "card_sche.png", "WSUI": "card_wsui.png", "SSUI": "card_ssui.png", "CHN": "card_chn.png", "BON": "card_bon.png", "QB": "card_qb.png", "SOUL": "card_soul.png", "GRIEF": "card_grief.png", "GEASS": "card_geass.png", "KNIGHT": "card_knight.png", "KMF": "card_kmf.png", "YURIA": "card_yuria.png", "TOMO": "card_tomo.png", "SEVEN": "card_seven.png", "KOGA": "card_koga.png", "IGA": "card_iga.png", "KIZUNA": "card_kizuna.png"};
-const names={BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
+const cardImages={"GOD":"card_god.png","MISS":"card_miss.png","BEL": "card_bel.png", "REP": "card_rep.png", "WCHE": "card_wche.png", "SCHE": "card_sche.png", "WSUI": "card_wsui.png", "SSUI": "card_ssui.png", "CHN": "card_chn.png", "BON": "card_bon.png", "QB": "card_qb.png", "SOUL": "card_soul.png", "GRIEF": "card_grief.png", "GEASS": "card_geass.png", "KNIGHT": "card_knight.png", "KMF": "card_kmf.png", "YURIA": "card_yuria.png", "TOMO": "card_tomo.png", "SEVEN": "card_seven.png", "KOGA": "card_koga.png", "IGA": "card_iga.png", "KIZUNA": "card_kizuna.png"};
+const names={GOD:"GOD",MISS:"ハズレ",BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
 const cabinetImages={
  madoka:"madoka.png",
  geass:"geass.png",
@@ -153,7 +153,193 @@ function renderBetButtons(){
    });
  }
 }
-function updateCabinetDisplay(){
+const roleReqFX={BEL:4,REP:3,WCHE:2,SCHE:1,WSUI:2,SSUI:1,CHN:2,BON:1};const specialFX=new Set(["QB","SOUL","GRIEF","GEASS","KNIGHT","KMF","YURIA","TOMO","SEVEN","KOGA","IGA","KIZUNA"]);function updateRoleFX(arr){const c={};arr.forEach(x=>c[x]=(c[x]||0)+1);let rows=[],hits=0;Object.keys(roleReqFX).forEach(k=>{let n=c[k]||0;if(!n)return;let r=roleReqFX[k],hit=n>=r;if(hit)hits++;rows.push(`<div class="roleFxRow ${hit?"hit":""}"><div class="roleFxName">${names[k]} ×${n}</div><div class="roleFxMeter"><i style="width:${Math.min(100,n/r*100)}%"></i></div><div class="roleFxResult">${hit?"成立！":`あと${r-n}枚`}</div></div>`)});Object.keys(c).filter(k=>specialFX.has(k)).forEach(k=>rows.push(`<div class="roleFxRow special"><div class="roleFxName">${names[k]} ×${c[k]}</div><div class="roleFxMeter"><i style="width:100%"></i></div><div class="roleFxResult">専用カード出現</div></div>`));E("roleFxRows").innerHTML=rows.join("")||'<div class="roleFxEmpty">成立候補なし</div>';E("roleFxStatus").textContent=hits?`${hits} ROLE HIT`:"CHECK COMPLETE";document.querySelectorAll("#cards .card").forEach(el=>el.classList.remove("roleUsed"));Object.keys(roleReqFX).forEach(k=>{if((c[k]||0)>=roleReqFX[k])document.querySelectorAll(`#cards .card.${k}`).forEach(el=>el.classList.add("roleUsed"))})}function updateCabinetDisplay(){
+ if(E("currentCabImg"))E("currentCabImg").src=cabinetImages[machine];
+ if(E("currentCabName"))E("currentCabName").textContent=cabinetNames[machine];
+ if(E("currentCabUpper"))E("currentCabUpper").textContent="上位AT："+upperNames[machine];
+}
+function ui(){updateCabinetDisplay();E("credit").textContent=credit.toLocaleString();E("turn").textContent=turn;E("payout").textContent=lastPay.toLocaleString();E("free").textContent=free;E("cost").textContent=(100*turn).toLocaleString()+"〜";
+ let s="",p=0;if(machine==="madoka"){s=`穢れ ${kegare}/100`;p=kegare}if(machine==="geass"){s=`COMBO ×${combo.toFixed(1)}`;p=(combo-1)/2*100}if(machine==="hokuto"){s=battle?`BATTLE ${bchain}連 / ${Math.round(brate*100)}%`:"BATTLE待機";p=battle?brate*100:0}if(machine==="basilisk"){s=bt?`BT 甲賀 ${koga}人 vs 伊賀 ${iga}人`:"BT待機";p=bt?(10-iga)*10:0}E("state").textContent=s;E("fill").style.width=Math.min(100,p)+"%";
+ if(rushLevel===2) E("atState").textContent=`🌈 PREMIUM ${upperNames[machine]}`;
+ else if(rushLevel===1) E("atState").textContent=`🔥 ${upperNames[machine]}`;
+ else if(free>0) E("atState").textContent="FREE DRAW";
+ else E("atState").textContent="NORMAL";
+ renderBetButtons();
+ E("freebtn").style.display="none";
+ ["madoka","geass","hokuto","basilisk"].forEach(m=>{E("c"+m).textContent=localStorage.getItem("mf_comp_"+m)?"✓ COMPLETE":""})}
+function synergy(h){if(machine==="madoka")return (ct(h,"QB")+ct(h,"SOUL")+ct(h,"GRIEF"))>=2;if(machine==="geass")return (ct(h,"GEASS")+ct(h,"KNIGHT")+ct(h,"KMF"))>=2;if(machine==="hokuto")return (ct(h,"YURIA")+ct(h,"TOMO")+ct(h,"SEVEN"))>=2;return ct(h,"KOGA")&&ct(h,"IGA")||ct(h,"KIZUNA")}
+
+const ruleCommon=[
+ ["ベル×4以上","小PAYOUT。5枚・7枚で配当アップ"],
+ ["弱チェリー×3","弱チェリー役"],
+ ["強チェリー","1枚から強レア役"],
+ ["弱スイカ×3","弱スイカ役"],
+ ["強スイカ","1枚から強レア役"],
+ ["チャンス目×4","PAYOUT＋FREE DRAW"],
+ ["BONUS×2","BONUS＋FREE DRAW"],
+ ["リプレイ×7","FREE DRAW"]
+];
+const machineRules={
+ madoka:[
+  ["キュゥべえ＋弱チェリー","契約示唆：穢れ獲得"],
+  ["ソウルジェム＋強チェリー/強スイカ","共鳴：FREE DRAW"],
+  ["グリーフシード","穢れ大量獲得"],
+  ["穢れ100","穢れ解放：大量PAYOUT＋FREE"],
+  ["専用カード＋強レア役（FREE中）","エンブリオ・イブ覚醒へ昇格"]
+ ],
+ geass:[
+  ["ギアス＋レア役","COMBO上昇"],
+  ["黒の騎士団＋レア役","COMBO維持＋FREE"],
+  ["ナイトメア＋強チェリー/強スイカ","強襲PAYOUT"],
+  ["専用カード＋強レア役（FREE中）","ギアスラッシュへ昇格"]
+ ],
+ hokuto:[
+  ["強敵＋強チェリー/強スイカ","84% BATTLE突入"],
+  ["ユリア＋BATTLE敗北","復活"],
+  ["北斗七星","BATTLE継続率を強化"],
+  ["専用カード＋強レア役（FREE中）","無想転生バトルへ昇格"]
+ ],
+ basilisk:[
+  ["甲賀＋伊賀","争忍開始"],
+  ["絆＋BT中","絆高確：FREE＋PAYOUT"],
+  ["強チェリー","伊賀人数への攻撃強化"],
+  ["絆","甲賀側の被害を軽減"],
+  ["専用カード＋強レア役（FREE中）","天膳BTへ昇格"]
+ ]
+};
+function showRules(){
+ E("ruleTitle").textContent=`${document.querySelector(".machine.selected h3").textContent} ― 役・シナジー一覧`;
+ E("ruleContent").innerHTML=[...ruleCommon,...machineRules[machine]].map(x=>`<div class="ruleRow"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")+
+ `<div class="ruleRow"><b>FREEZE</b><span>専用カード＋強チェリー＋BONUS</span></div>
+  <div class="ruleRow"><b>🌈 PREMIUM FREEZE</b><span>専用シナジー＋強チェリー＋強スイカ＋BONUS。最上位状態へ。</span></div>`;
+ E("ruleOverlay").classList.add("show")
+}
+function markCards(h,codes){
+ [...E("cards").children].forEach((el,i)=>{if(codes.includes(h[i]))el.classList.add("used")})
+}
+async function roleCheck(h,r){
+ E("rolePanel").classList.add("show");E("roleResults").innerHTML="";E("totalRole").textContent="";
+ const events=[];
+ const add=(title,why,effect,codes=[])=>events.push({title,why,effect,codes});
+ let bel=ct(h,"BEL"),wc=ct(h,"WCHE"),sc=ct(h,"SCHE"),ws=ct(h,"WSUI"),ss=ct(h,"SSUI"),ch=ct(h,"CHN"),bo=ct(h,"BON"),re=ct(h,"REP");
+ if(bel>=4)add("ベル役",`ベル ×${bel}`,"PAYOUT発生",["BEL"]);
+ if(wc>=3)add("弱チェリー役",`弱チェリー ×${wc}`,"PAYOUT発生",["WCHE"]);
+ if(sc)add("強チェリー",`強チェリー ×${sc}`,"強レア役",["SCHE"]);
+ if(ws>=3)add("弱スイカ役",`弱スイカ ×${ws}`,"PAYOUT発生",["WSUI"]);
+ if(ss)add("強スイカ",`強スイカ ×${ss}`,"強レア役",["SSUI"]);
+ if(ch>=4)add("チャンス目",`チャンス目 ×${ch}`,"FREE DRAW獲得",["CHN"]);
+ if(bo>=2)add("BONUS",`BONUS ×${bo}`,"FREE DRAW獲得",["BON"]);
+ if(re>=7)add("リプレイ役",`リプレイ ×${re}`,"FREE DRAW獲得",["REP"]);
+ if(machine==="madoka"){
+  if(ct(h,"QB")&&wc)add("契約示唆","キュゥべえ＋弱チェリー","穢れ獲得",["QB","WCHE"]);
+  if(ct(h,"SOUL")&&(sc||ss))add("ソウルジェム共鳴","ソウルジェム＋強レア役","FREE DRAW",["SOUL","SCHE","SSUI"]);
+  if(ct(h,"GRIEF"))add("グリーフシード","グリーフシード出現","穢れ＋35",["GRIEF"]);
+ }
+ if(machine==="geass"){
+  if(ct(h,"KNIGHT")&&(sc||ss||ch>=4||bo>=2))add("黒の騎士団","黒の騎士団＋レア役","COMBO維持＋FREE",["KNIGHT","SCHE","SSUI","CHN","BON"]);
+  if(ct(h,"KMF")&&(sc||ss))add("ナイトメア強襲","ナイトメア＋強レア役","追加PAYOUT",["KMF","SCHE","SSUI"]);
+ }
+ if(machine==="hokuto"){
+  if(ct(h,"TOMO")&&(sc||ss))add("強敵シナジー","強敵＋強レア役","84% BATTLE",["TOMO","SCHE","SSUI"]);
+  if(ct(h,"SEVEN"))add("北斗七星","北斗七星出現","継続率強化",["SEVEN"]);
+ }
+ if(machine==="basilisk"){
+  if(ct(h,"KOGA")&&ct(h,"IGA"))add("争忍開始","甲賀＋伊賀","BT突入",["KOGA","IGA"]);
+  if(ct(h,"KIZUNA")&&bt)add("絆高確","絆＋BT","FREE＋戦闘有利",["KIZUNA"]);
+ }
+ if(r.fr)add(r.pr?"🌈 PREMIUM FREEZE":"FREEZE",r.pr?"専用シナジー＋強チェリー＋強スイカ＋BONUS":"専用カード＋強チェリー＋BONUS",r.pr?"最上位AT＋大量FREE":"大量PAYOUT＋FREE",r.pr?["SCHE","SSUI","BON",...specs[machine]]:["SCHE","BON",...specs[machine]]);
+ if(!events.length)add("ハズレ","有効な組み合わせなし","PAYOUTなし");
+ for(const e of events){
+   markCards(h,e.codes);
+   E("roleResults").insertAdjacentHTML("beforeend",`<div class="roleItem"><b>${e.title}</b><br><small>${e.why}</small><br><span class="roleEffect">→ ${e.effect}</span></div>`);
+   S.hit();await sleep(360);
+ }
+}
+
+function evalH(h){
+ let base=0,extra=0,msg=[],fr=false,pr=false;let bel=ct(h,"BEL"),wc=ct(h,"WCHE"),sc=ct(h,"SCHE"),ws=ct(h,"WSUI"),ss=ct(h,"SSUI"),ch=ct(h,"CHN"),bo=ct(h,"BON"),re=ct(h,"REP");
+ if(bel>=4){let x=bel>=7?350:bel>=5?120:50;base+=x;msg.push(`ベル${bel} +${x}`)}if(wc>=3){base+=220;msg.push("弱チェリー役 +220")}if(sc){base+=400*sc;msg.push(`強チェリー +${400*sc}`)}if(ws>=3){base+=300;msg.push("弱スイカ役 +300")}if(ss){base+=500;msg.push("強スイカ +500")}if(ch>=4){base+=450;extra++;msg.push("チャンス目 → FREE")}if(bo>=2){base+=800;extra++;msg.push("BONUS → FREE")}if(re>=7){extra++;msg.push("リプレイ7+ → FREE")}
+ let keys=specs[machine].filter((x,i,a)=>a.indexOf(x)===i),present=keys.filter(x=>ct(h,x));
+ if(machine==="madoka"){if(ct(h,"QB")&&wc){kegare+=20;base+=100;msg.push("契約示唆")}if(ct(h,"SOUL")&&(sc||ss)){base+=500;extra++;msg.push("ソウルジェム共鳴 → FREE")}if(ct(h,"GRIEF")){kegare+=35;msg.push("グリーフシード → 穢れ+35")}if(kegare>=100){kegare-=100;base+=1800;extra+=2;msg.push("穢れ解放 → FREE×2")}}
+ if(machine==="geass"){let role=sc||ss||ch>=4||bo>=2;combo=role?Math.min(3,combo+.25):Math.max(1,combo-.25);if(ct(h,"GEASS"))combo=Math.min(3,combo+.3);if(ct(h,"KNIGHT")&&role){extra++;msg.push("黒の騎士団 → COMBO維持/FREE")}if(ct(h,"KMF")&&(sc||ss)){base+=450;msg.push("ナイトメア強襲 +450")}base=Math.floor(base*combo)}
+ if(machine==="hokuto"){if(ct(h,"TOMO")&&(sc||ss)){battle=true;bchain=Math.max(1,bchain);brate=.84;extra++;msg.push("強敵 → 84% BATTLE")}if(ct(h,"YURIA"))msg.push("ユリア復活待機");if(ct(h,"SEVEN"))brate=Math.max(brate,.79);if(battle){if(Math.random()<brate){bchain++;base+=400;extra++;msg.push(`BATTLE継続 ${bchain}連`)}else if(ct(h,"YURIA")){bchain++;extra++;msg.push("ユリア復活")}else{battle=false;bchain=0;brate=.66;msg.push("BATTLE終了")}}}
+ if(machine==="basilisk"){if(ct(h,"KOGA")&&ct(h,"IGA")){bt=true;extra++;msg.push("甲賀＋伊賀 → 争忍開始")}if(ct(h,"KIZUNA")&&bt){extra++;base+=300;msg.push("絆高確 → FREE")}if(bt){let kd=Math.max(1,(sc?3:1)+(ct(h,"KOGA")?1:0)),id=Math.max(0,(ss?0:1)-(ct(h,"KIZUNA")?1:0));iga=Math.max(0,iga-kd);koga=Math.max(0,koga-id);base+=kd*120;if(iga===0){base+=1800;extra+=2;iga=10;koga=10;msg.push("完全勝利！ +1800 / FREE×2")}else if(koga===0){bt=false;koga=10;iga=10;msg.push("BT終了")}}}
+ if(present.length>=1&&sc&&bo){fr=true;base+=1800;extra+=3;msg.push("★ FREEZE")}
+ if(present.length>=2&&sc&&ss&&bo){pr=true;fr=true;base+=4500;extra+=6;msg.push("🌈 PREMIUM FREEZE")}
+ return{base,extra,msg,fr,pr}
+}
+async function spin(bet=null){
+ if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
+ let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);
+ await roleCheck(h,r);
+ let rarePower=ct(h,"SCHE")+ct(h,"SSUI");
+ let specCount=specs[machine].filter((x,i,a)=>a.indexOf(x)===i&&ct(h,x)>0).length;
+ if(isFree && rushLevel===0 && (rarePower>=1 && specCount>=1)){
+   rushLevel=1;free+=2;fx(upperNames[machine],"上位AT突入！ FREE +2");log(`🔥 ${upperNames[machine]}へ昇格！`,"gold");
+ }
+ if(isFree && rushLevel===1 && ((ct(h,"SCHE")&&ct(h,"SSUI")) || r.pr)){
+   rushLevel=2;free+=3;fx("PREMIUM",upperNames[machine]+" 覚醒",true);log(`🌈 PREMIUM ${upperNames[machine]}へ昇格！`,"gold");
+ }
+ if(r.pr){rushLevel=2;free=Math.max(free,6)}
+ else if(r.fr && rushLevel===0){rushLevel=1;free=Math.max(free,4)}
+ let m=activeBet===100?1:activeBet===300?2.7:4.2;
+ let rushPayMult=rushLevel===2?3:rushLevel===1?2:1;
+ let pay=Math.floor(r.base*m*rushPayMult);lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
+ log(`<b>ROUND ${round} ${isFree?"FREE":`COST -${cost}`}</b><br>${r.msg.join("<br>")}<br><span class="gold">PAYOUT +${pay.toLocaleString()} / CREDIT ${credit.toLocaleString()}</span>`,r.fr?"hot":"");
+ if(!manmai&&credit>=10000){manmai=true;fx("10,000","万枚突破！ COMPLETEまで続行");log("★ 万枚突破！ NEXT TARGET 20,000枚","gold")}
+ if(credit>=20000){complete();return}
+ if(free===0 && rushLevel>0){log(`${upperNames[machine]} 終了。`);rushLevel=0}
+ if(credit<100*turn&&free===0){end();return}
+ if(E("freebtn"))E("freebtn").disabled=false;ui()
+}
+function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
+function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
+function reset(){rushLevel=0;rushDraws=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";ui()}
+document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
+
+// Ver.16 basic deck extras
+const oldUpdateRoleFX=updateRoleFX;
+updateRoleFX=function(arr){
+ oldUpdateRoleFX(arr);
+ const c={};arr.forEach(x=>c[x]=(c[x]||0)+1);
+ const box=E("roleFxRows"); if(!box)return;
+ if(c.GOD){box.insertAdjacentHTML("afterbegin",`<div class="roleFxRow hit"><div class="roleFxName">GOD ×${c.GOD}</div><div class="roleFxMeter"><i style="width:100%"></i></div><div class="roleFxResult">確定役！</div></div>`);}
+ if(c.MISS){box.insertAdjacentHTML("beforeend",`<div class="roleFxRow"><div class="roleFxName">ハズレ（ヤムチャ） ×${c.MISS}</div><div class="roleFxMeter"><i style="width:${Math.min(100,c.MISS/3*100)}%"></i></div><div class="roleFxResult">${c.MISS>=3?"DEAD HAND!":`あと${3-c.MISS}枚`}</div></div>`);}
+};
+
+</script></body></htmlupdateRoleFX(arr);
+function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){deck=sh([...common,...specs[machine]])}function ct(h,x){return h.filter(v=>v===x).length}function take(){if(deck.length<10)newDeck();return deck.splice(0,10)}
+function log(s,c=""){E("log").innerHTML=`<span class="${c}">${s}</span><hr style="border-color:#2b2430;border-width:1px 0 0">`+E("log").innerHTML}
+async function reveal(h){E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");for(let i=0;i<10;i++){S.flip();let x=h[i],sl=E("cards").children[i];sl.outerHTML=`<div class="card ${x}"><img class="cardArt" src="${cardImages[x]}" alt="${names[x]}" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'"><div class="cardFallback" style="display:none">${names[x]}<small>${x}</small></div></div>`;if(x==="SCHE"||x==="SSUI"){S.rare();await sleep(130)}await sleep(i===9?170:85)}}
+async function synfx(){S.hit();E("syn").classList.remove("show");void E("syn").offsetWidth;E("syn").classList.add("show");await sleep(600)}
+function fx(title,sub,premium=false){premium?S.premium():S.freeze();E("fx").textContent=title;E("fx").className="fx"+(premium?" rainbow":"");E("fxsub").textContent=sub;E("overlay").classList.add("show");setTimeout(()=>E("overlay").classList.remove("show"),1300)}
+
+function renderBetButtons(){
+ const area=E("betArea");
+ if(!area)return;
+ if(free>0 && !gameOver){
+   const baseMult=lastBet===100?1:lastBet===300?2.7:4.2;
+   const rushMult=rushLevel===2?3:rushLevel===1?2:1;
+   const totalMult=(baseMult*rushMult).toFixed(1).replace(".0","");
+   let label="FREE DRAW",cls="freeSpecial";
+   if(rushLevel===1){label=upperNames[machine];cls="upperSpecial"}
+   if(rushLevel===2){label="PREMIUM "+upperNames[machine];cls="premiumSpecial"}
+   area.innerHTML=`<button class="${cls}" id="freeSpecial">${label}<br><small>残り ${free} DRAW ／ PAYOUT ×${totalMult}</small></button>`;
+   E("freeSpecial").onclick=()=>spin();
+ }else{
+   area.innerHTML=`
+     <button class="spin" data-bet="100">${(100*turn).toLocaleString()} BET</button>
+     <button class="spin" data-bet="300">${(300*turn).toLocaleString()} BET</button>
+     <button class="spin" data-bet="500">${(500*turn).toLocaleString()} BET</button>`;
+   area.querySelectorAll(".spin").forEach(b=>{
+     const baseBet=+b.dataset.bet;
+     const actualCost=baseBet*turn;
+     b.disabled=gameOver || credit<actualCost;
+     b.onclick=()=>spin(baseBet);
+   });
+ }
+}
+const roleReqFX={BEL:4,REP:3,WCHE:2,SCHE:1,WSUI:2,SSUI:1,CHN:2,BON:1};const specialFX=new Set(["QB","SOUL","GRIEF","GEASS","KNIGHT","KMF","YURIA","TOMO","SEVEN","KOGA","IGA","KIZUNA"]);function updateRoleFX(arr){const c={};arr.forEach(x=>c[x]=(c[x]||0)+1);let rows=[],hits=0;Object.keys(roleReqFX).forEach(k=>{let n=c[k]||0;if(!n)return;let r=roleReqFX[k],hit=n>=r;if(hit)hits++;rows.push(`<div class="roleFxRow ${hit?"hit":""}"><div class="roleFxName">${names[k]} ×${n}</div><div class="roleFxMeter"><i style="width:${Math.min(100,n/r*100)}%"></i></div><div class="roleFxResult">${hit?"成立！":`あと${r-n}枚`}</div></div>`)});Object.keys(c).filter(k=>specialFX.has(k)).forEach(k=>rows.push(`<div class="roleFxRow special"><div class="roleFxName">${names[k]} ×${c[k]}</div><div class="roleFxMeter"><i style="width:100%"></i></div><div class="roleFxResult">専用カード出現</div></div>`));E("roleFxRows").innerHTML=rows.join("")||'<div class="roleFxEmpty">成立候補なし</div>';E("roleFxStatus").textContent=hits?`${hits} ROLE HIT`:"CHECK COMPLETE";document.querySelectorAll("#cards .card").forEach(el=>el.classList.remove("roleUsed"));Object.keys(roleReqFX).forEach(k=>{if((c[k]||0)>=roleReqFX[k])document.querySelectorAll(`#cards .card.${k}`).forEach(el=>el.classList.add("roleUsed"))})}function updateCabinetDisplay(){
  if(E("currentCabImg"))E("currentCabImg").src=cabinetImages[machine];
  if(E("currentCabName"))E("currentCabName").textContent=cabinetNames[machine];
  if(E("currentCabUpper"))E("currentCabUpper").textContent="上位AT："+upperNames[machine];
