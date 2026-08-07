@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.9</title>
+<title>万枚ファンタジア Ver.11</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -19,30 +19,24 @@
 .legend{font-size:11px;color:#cfc5d4;line-height:1.7}.ending{text-align:center;font-size:27px;font-weight:1000}.win{color:#ffe277}.lose{color:#ff7777}
 @media(max-width:850px){.machines{grid-template-columns:repeat(2,1fr)}.displays{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.machines{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}}
 
-.titleScreen{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at top,#4a245f,#0a0810 65%);display:flex;align-items:center;justify-content:center;padding:20px}
-.titleCard{width:min(720px,94vw);text-align:center;background:#ffffff0d;border:1px solid #ffffff20;border-radius:26px;padding:34px 22px;box-shadow:0 30px 80px #0008}
-.titleLogo{font-size:clamp(42px,10vw,88px);font-weight:1000;letter-spacing:.08em;line-height:1.05;text-shadow:0 0 35px #ffe27755}
-.titleCatch{margin:14px 0 26px;color:#d8cbe0;font-size:clamp(14px,3vw,20px)}
-.startBtn{background:linear-gradient(135deg,#ffe277,#ff9f59);color:#221400;border:0;border-radius:999px;padding:16px 42px;font-size:22px;font-weight:1000;cursor:pointer;box-shadow:0 0 30px #ffe27755}
-.titleSmall{margin-top:18px;color:#a89caf;font-size:12px;line-height:1.7}
-.hideTitle{display:none}
+.rolePanel{display:none;border:1px solid #ffe27755;background:#130f16}.rolePanel.show{display:block}
+.roleTitle{text-align:center;font-size:22px;font-weight:1000;color:#ffe277;letter-spacing:.08em}
+.roleItem{margin:8px 0;padding:10px 12px;border-radius:11px;background:#ffffff0a;border-left:4px solid #ffe277;animation:roleIn .25s ease-out}
+.roleItem b{color:#ffe277}.roleEffect{color:#8ef3ae;font-weight:900}
+@keyframes roleIn{from{opacity:0;transform:translateX(-15px)}}
+.card.used{outline:3px solid #ffe277;box-shadow:0 0 28px #ffe27799;transform:scale(1.04)}
+.ruleOverlay{position:fixed;inset:0;background:#000d;z-index:80;display:none;align-items:center;justify-content:center;padding:18px}.ruleOverlay.show{display:flex}
+.ruleBook{width:min(780px,96vw);max-height:88vh;overflow:auto;background:#17121c;border:1px solid #ffffff22;border-radius:20px;padding:20px}
+.ruleBook h2{margin-top:0}.ruleRow{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;padding:10px;border-bottom:1px solid #ffffff12;font-size:12px}.ruleRow b{color:#ffe277}
 
 </style></head><body>
 
-<div class="titleScreen" id="titleScreen">
-  <div class="titleCard">
-    <div class="titleLogo">万枚<br>ファンタジア</div>
-    <div class="titleCatch">10枚のカードで運命を引き寄せろ。<br>万枚は通過点。20,000枚COMPLETEを目指せ。</div>
-    <button class="startBtn" id="startGame">GAME START</button>
-    <div class="titleSmall">
-      4筐体から選択 ／ BETはTURNごとに上昇 ／ FREE・上位AT・FREEZE搭載<br>
-      SOUND対応・ブラウザだけでプレイ可能
-    </div>
-  </div>
-</div>
+<div class="ruleOverlay" id="ruleOverlay"><div class="ruleBook">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 id="ruleTitle">役・シナジー一覧</h2><button class="secondary" id="closeRules">閉じる</button></div>
+<div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">PUBLIC BUILD Ver.10 ― UPPER AT AWAKENING</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.11 ― ROLE CHECK</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><h3>スマスロ マギアレコード</h3><p>穢れ蓄積型。キュゥべえ／ソウルジェム／グリーフシード。</p><span class="tag">穢れ</span> <span class="comp" id="cmadoka"></span></div>
 <div class="machine" data-m="geass"><h3>スマスロ コードギアス</h3><p>連鎖型。ギアス／黒の騎士団／ナイトメア。</p><span class="tag">COMBO</span> <span class="comp" id="cgeass"></span></div>
@@ -54,7 +48,9 @@
 <div class="panel"><div class="state" id="state">穢れ 0 / 100</div><div class="state" id="atState" style="margin-top:8px;color:#80f4aa">NORMAL</div><div class="meter"><div class="fill" id="fill"></div></div></div>
 <div class="panel"><div style="text-align:center;font-weight:900;margin-bottom:8px">BET × TURN で消費</div><div class="bets" id="betArea"><button class="spin" data-bet="100">100 BET</button><button class="spin" data-bet="300">300 BET</button><button class="spin" data-bet="500">500 BET</button></div><div class="legend" style="text-align:center;margin-top:8px">ボタンには現在TURNで実際に消費するBET額を表示　／　FREE DRAWではTURNが進まない</div></div>
 <div class="panel"><h2>10枚ドロー</h2><div class="cards" id="cards"></div></div>
-<div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
+<div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
+
+<div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
 <div class="panel legend"><b>GOAL</b>：10,000枚＝万枚突破（続行） → 20,000枚＝COMPLETE。<br><b>上位AT</b>：FREE中に専用カード＋強レア役で昇格。上位AT中はPAYOUT×2。さらに強チェリー＋強スイカ等でPREMIUM化しPAYOUT×3。<br><b>PREMIUM FREEZE</b>：最上位ATへ直行＋大量FREEストック。</div>
 <div class="panel"><h2>ログ</h2><div class="log" id="log">CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。</div></div><div id="ending"></div></div>
 
@@ -115,6 +111,94 @@ function ui(){E("credit").textContent=credit.toLocaleString();E("turn").textCont
  E("freebtn").style.display="none";
  ["madoka","geass","hokuto","basilisk"].forEach(m=>{E("c"+m).textContent=localStorage.getItem("mf_comp_"+m)?"✓ COMPLETE":""})}
 function synergy(h){if(machine==="madoka")return (ct(h,"QB")+ct(h,"SOUL")+ct(h,"GRIEF"))>=2;if(machine==="geass")return (ct(h,"GEASS")+ct(h,"KNIGHT")+ct(h,"KMF"))>=2;if(machine==="hokuto")return (ct(h,"YURIA")+ct(h,"TOMO")+ct(h,"SEVEN"))>=2;return ct(h,"KOGA")&&ct(h,"IGA")||ct(h,"KIZUNA")}
+
+const ruleCommon=[
+ ["ベル×4以上","小PAYOUT。5枚・7枚で配当アップ"],
+ ["弱チェリー×3","弱チェリー役"],
+ ["強チェリー","1枚から強レア役"],
+ ["弱スイカ×3","弱スイカ役"],
+ ["強スイカ","1枚から強レア役"],
+ ["チャンス目×4","PAYOUT＋FREE DRAW"],
+ ["BONUS×2","BONUS＋FREE DRAW"],
+ ["リプレイ×7","FREE DRAW"]
+];
+const machineRules={
+ madoka:[
+  ["キュゥべえ＋弱チェリー","契約示唆：穢れ獲得"],
+  ["ソウルジェム＋強チェリー/強スイカ","共鳴：FREE DRAW"],
+  ["グリーフシード","穢れ大量獲得"],
+  ["穢れ100","穢れ解放：大量PAYOUT＋FREE"],
+  ["専用カード＋強レア役（FREE中）","エンブリオ・イブ覚醒へ昇格"]
+ ],
+ geass:[
+  ["ギアス＋レア役","COMBO上昇"],
+  ["黒の騎士団＋レア役","COMBO維持＋FREE"],
+  ["ナイトメア＋強チェリー/強スイカ","強襲PAYOUT"],
+  ["専用カード＋強レア役（FREE中）","ギアスラッシュへ昇格"]
+ ],
+ hokuto:[
+  ["強敵＋強チェリー/強スイカ","84% BATTLE突入"],
+  ["ユリア＋BATTLE敗北","復活"],
+  ["北斗七星","BATTLE継続率を強化"],
+  ["専用カード＋強レア役（FREE中）","無想転生バトルへ昇格"]
+ ],
+ basilisk:[
+  ["甲賀＋伊賀","争忍開始"],
+  ["絆＋BT中","絆高確：FREE＋PAYOUT"],
+  ["強チェリー","伊賀人数への攻撃強化"],
+  ["絆","甲賀側の被害を軽減"],
+  ["専用カード＋強レア役（FREE中）","天膳BTへ昇格"]
+ ]
+};
+function showRules(){
+ E("ruleTitle").textContent=`${document.querySelector(".machine.selected h3").textContent} ― 役・シナジー一覧`;
+ E("ruleContent").innerHTML=[...ruleCommon,...machineRules[machine]].map(x=>`<div class="ruleRow"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")+
+ `<div class="ruleRow"><b>FREEZE</b><span>専用カード＋強チェリー＋BONUS</span></div>
+  <div class="ruleRow"><b>🌈 PREMIUM FREEZE</b><span>専用シナジー＋強チェリー＋強スイカ＋BONUS。最上位状態へ。</span></div>`;
+ E("ruleOverlay").classList.add("show")
+}
+function markCards(h,codes){
+ [...E("cards").children].forEach((el,i)=>{if(codes.includes(h[i]))el.classList.add("used")})
+}
+async function roleCheck(h,r){
+ E("rolePanel").classList.add("show");E("roleResults").innerHTML="";E("totalRole").textContent="";
+ const events=[];
+ const add=(title,why,effect,codes=[])=>events.push({title,why,effect,codes});
+ let bel=ct(h,"BEL"),wc=ct(h,"WCHE"),sc=ct(h,"SCHE"),ws=ct(h,"WSUI"),ss=ct(h,"SSUI"),ch=ct(h,"CHN"),bo=ct(h,"BON"),re=ct(h,"REP");
+ if(bel>=4)add("ベル役",`ベル ×${bel}`,"PAYOUT発生",["BEL"]);
+ if(wc>=3)add("弱チェリー役",`弱チェリー ×${wc}`,"PAYOUT発生",["WCHE"]);
+ if(sc)add("強チェリー",`強チェリー ×${sc}`,"強レア役",["SCHE"]);
+ if(ws>=3)add("弱スイカ役",`弱スイカ ×${ws}`,"PAYOUT発生",["WSUI"]);
+ if(ss)add("強スイカ",`強スイカ ×${ss}`,"強レア役",["SSUI"]);
+ if(ch>=4)add("チャンス目",`チャンス目 ×${ch}`,"FREE DRAW獲得",["CHN"]);
+ if(bo>=2)add("BONUS",`BONUS ×${bo}`,"FREE DRAW獲得",["BON"]);
+ if(re>=7)add("リプレイ役",`リプレイ ×${re}`,"FREE DRAW獲得",["REP"]);
+ if(machine==="madoka"){
+  if(ct(h,"QB")&&wc)add("契約示唆","キュゥべえ＋弱チェリー","穢れ獲得",["QB","WCHE"]);
+  if(ct(h,"SOUL")&&(sc||ss))add("ソウルジェム共鳴","ソウルジェム＋強レア役","FREE DRAW",["SOUL","SCHE","SSUI"]);
+  if(ct(h,"GRIEF"))add("グリーフシード","グリーフシード出現","穢れ＋35",["GRIEF"]);
+ }
+ if(machine==="geass"){
+  if(ct(h,"KNIGHT")&&(sc||ss||ch>=4||bo>=2))add("黒の騎士団","黒の騎士団＋レア役","COMBO維持＋FREE",["KNIGHT","SCHE","SSUI","CHN","BON"]);
+  if(ct(h,"KMF")&&(sc||ss))add("ナイトメア強襲","ナイトメア＋強レア役","追加PAYOUT",["KMF","SCHE","SSUI"]);
+ }
+ if(machine==="hokuto"){
+  if(ct(h,"TOMO")&&(sc||ss))add("強敵シナジー","強敵＋強レア役","84% BATTLE",["TOMO","SCHE","SSUI"]);
+  if(ct(h,"SEVEN"))add("北斗七星","北斗七星出現","継続率強化",["SEVEN"]);
+ }
+ if(machine==="basilisk"){
+  if(ct(h,"KOGA")&&ct(h,"IGA"))add("争忍開始","甲賀＋伊賀","BT突入",["KOGA","IGA"]);
+  if(ct(h,"KIZUNA")&&bt)add("絆高確","絆＋BT","FREE＋戦闘有利",["KIZUNA"]);
+ }
+ if(r.fr)add(r.pr?"🌈 PREMIUM FREEZE":"FREEZE",r.pr?"専用シナジー＋強チェリー＋強スイカ＋BONUS":"専用カード＋強チェリー＋BONUS",r.pr?"最上位AT＋大量FREE":"大量PAYOUT＋FREE",r.pr?["SCHE","SSUI","BON",...specs[machine]]:["SCHE","BON",...specs[machine]]);
+ if(!events.length)add("ハズレ","有効な組み合わせなし","PAYOUTなし");
+ for(const e of events){
+   markCards(h,e.codes);
+   E("roleResults").insertAdjacentHTML("beforeend",`<div class="roleItem"><b>${e.title}</b><br><small>${e.why}</small><br><span class="roleEffect">→ ${e.effect}</span></div>`);
+   S.hit();await sleep(360);
+ }
+}
+
 function evalH(h){
  let base=0,extra=0,msg=[],fr=false,pr=false;let bel=ct(h,"BEL"),wc=ct(h,"WCHE"),sc=ct(h,"SCHE"),ws=ct(h,"WSUI"),ss=ct(h,"SSUI"),ch=ct(h,"CHN"),bo=ct(h,"BON"),re=ct(h,"REP");
  if(bel>=4){let x=bel>=7?350:bel>=5?120:50;base+=x;msg.push(`ベル${bel} +${x}`)}if(wc>=3){base+=220;msg.push("弱チェリー役 +220")}if(sc){base+=400*sc;msg.push(`強チェリー +${400*sc}`)}if(ws>=3){base+=300;msg.push("弱スイカ役 +300")}if(ss){base+=500;msg.push("強スイカ +500")}if(ch>=4){base+=450;extra++;msg.push("チャンス目 → FREE")}if(bo>=2){base+=800;extra++;msg.push("BONUS → FREE")}if(re>=7){extra++;msg.push("リプレイ7+ → FREE")}
@@ -128,8 +212,9 @@ function evalH(h){
  return{base,extra,msg,fr,pr}
 }
 async function spin(bet=null){
- if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
+ if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
  let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);
+ await roleCheck(h,r);
  let rarePower=ct(h,"SCHE")+ct(h,"SSUI");
  let specCount=specs[machine].filter((x,i,a)=>a.indexOf(x)===i&&ct(h,x)>0).length;
  if(isFree && rushLevel===0 && (rarePower>=1 && specCount>=1)){
@@ -142,7 +227,7 @@ async function spin(bet=null){
  else if(r.fr && rushLevel===0){rushLevel=1;free=Math.max(free,4)}
  let m=activeBet===100?1:activeBet===300?2.7:4.2;
  let rushPayMult=rushLevel===2?3:rushLevel===1?2:1;
- let pay=Math.floor(r.base*m*rushPayMult);lastPay=pay;credit+=pay;free+=r.extra;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
+ let pay=Math.floor(r.base*m*rushPayMult);lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
  log(`<b>ROUND ${round} ${isFree?"FREE":`COST -${cost}`}</b><br>${r.msg.join("<br>")}<br><span class="gold">PAYOUT +${pay.toLocaleString()} / CREDIT ${credit.toLocaleString()}</span>`,r.fr?"hot":"");
  if(!manmai&&credit>=10000){manmai=true;fx("10,000","万枚突破！ COMPLETEまで続行");log("★ 万枚突破！ NEXT TARGET 20,000枚","gold")}
  if(credit>=20000){complete();return}
@@ -152,12 +237,6 @@ async function spin(bet=null){
 }
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
-function reset(){rushLevel=0;rushDraws=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";ui()}
-document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("reset").onclick=reset;
-E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};
-E("startGame").onclick=()=>{
-  E("titleScreen").classList.add("hideTitle");
-  if(soundOn) S.hit();
-};
-reset();
+function reset(){rushLevel=0;rushDraws=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";ui()}
+document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>
