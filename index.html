@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.23</title>
+<title>万枚ファンタジア Ver.24.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -160,7 +160,46 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
  .oneScreenResult{grid-template-columns:1fr}
 }
 
+
+/* Ver.24 ARCADE SCREEN */
+.gameMenuBtn{position:fixed;right:14px;top:14px;z-index:1200;border:1px solid #ffffff33!important;background:#09070ddd!important;color:#fff!important;border-radius:10px!important;padding:9px 13px!important;font-size:11px!important;box-shadow:0 5px 22px #0008}
+.gameMenuOverlay{display:none;position:fixed;inset:0;z-index:1190;background:#000c;align-items:center;justify-content:center;padding:20px}
+.gameMenuOverlay.show{display:flex}
+.gameMenuBox{width:min(480px,92vw);background:#15101b;border:1px solid #ffffff28;border-radius:20px;padding:25px;box-shadow:0 25px 90px #000;position:relative}
+.gameMenuBox h2{margin:0 0 8px}.gameMenuBox p{color:#aaa0ad;font-size:12px}
+.gameMenuClose{position:absolute;right:12px;top:10px;background:none!important;color:#fff!important;font-size:25px!important;padding:5px 10px!important}
+.menuQuick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.menuQuick button{border-radius:10px!important;padding:12px 7px!important}
+
+/* Turn the draw section into the visual center of the page */
+.playHUD{position:sticky;top:8px;z-index:40;background:#110c16dd;padding:7px;border-radius:14px;backdrop-filter:blur(9px);box-shadow:0 8px 25px #0006}
+.oneScreenResult{margin-bottom:7px!important}
+.drawRoles,.drawEvent{min-height:35px!important;padding:7px 10px!important}
+.drawTitle{font-size:17px!important;margin:5px 0!important}
+@media(min-width:900px){
+ .wrap{max-width:1120px!important}
+ .cards{grid-template-columns:repeat(5,1fr)!important;gap:6px!important}
+ .card{min-height:0!important}
+ .card .pic{height:clamp(105px,14vh,155px)!important}
+ .card .name{font-size:12px!important;padding:7px 4px 2px!important}
+ .card .sub{font-size:8px!important;padding-bottom:6px!important}
+}
+
+
+.arcadeBottomHint{text-align:center;margin:7px 0 0;padding:7px;border-radius:9px;background:#09070c;color:#8e8492;font-size:9px;font-weight:900;letter-spacing:.08em}
 </style></head><body>
+<button id="gameMenuBtn" class="gameMenuBtn" onclick="toggleGameMenu()">☰ MENU</button>
+<div id="gameMenu" class="gameMenuOverlay" onclick="if(event.target===this)toggleGameMenu()">
+ <div class="gameMenuBox">
+  <button class="gameMenuClose" onclick="toggleGameMenu()">×</button>
+  <h2>MANMAI MENU</h2>
+  <p>筐体変更・遊び方・ログなどはここから確認。</p>
+  <div class="menuQuick">
+   <button onclick="toggleGameMenu();document.querySelector('.machines')?.scrollIntoView({behavior:'smooth'})">筐体選択</button>
+   <button onclick="toggleGameMenu();document.querySelector('.log')?.scrollIntoView({behavior:'smooth'})">ログ</button>
+   <button onclick="toggleGameMenu();window.scrollTo({top:0,behavior:'smooth'})">トップ</button>
+  </div>
+ </div>
+</div>
 <div id="upperDrawFX" class="upperDrawFX">
   <div class="upperDrawCore">
     <div id="upperDrawMachine" class="upperDrawMachine"></div>
@@ -196,7 +235,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.23 ― SINGLE SCREEN</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.24.1 ― ARCADE SCREEN FIX</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -220,7 +259,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
   <div id="drawEvent" class="drawEvent">今回の結果がここに表示されます</div>
 </div>
 <h2 class="drawTitle">10枚ドロー</h2><div class="cards" id="cards"></div></div>
-<div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
+<div class="panel rolePanel" id="rolePanel"><div class="roleTitle">ROLE CHECK</div><div id="roleResults"></div><div class="arcadeBottomHint">▲ 結果を確認して次ゲームへ　　BETボタンは画面上部の操作をそのまま使用</div><div class="roleTitle" id="totalRole" style="margin-top:12px"></div></div>
 
 <div class="panel"><div class="buttons"><button class="primary freebtn" id="freebtn" style="display:none">FREE DRAW</button><button class="secondary" id="how">HOW TO PLAY</button><button class="secondary" id="rules">役・シナジー一覧</button><button class="secondary" id="sound">SOUND ON</button><button class="secondary" id="reset">最初から</button></div></div>
 <div class="panel legend"><b>GOAL</b>：10,000枚＝万枚突破（続行） → 20,000枚＝COMPLETE。<br><b>上位AT</b>：FREE中に専用カード＋強レア役で昇格。上位AT中はPAYOUT×2。さらに強チェリー＋強スイカ等でPREMIUM化しPAYOUT×3。<br><b>PREMIUM FREEZE</b>：最上位ATへ直行＋大量FREEストック。</div>
@@ -265,7 +304,6 @@ const upperNames={
 };
 let rushLevel=0; // 0=normal free, 1=upper AT, 2=premium upper AT
 let rushDraws=0;
-let lastBet=0,lastPay=0;
 let gameState=0; // 0通常 1高確 2BONUS 3AT 4上位AT
 let highLeft=0,bonusLeft=0,atLeft=0;
 const stateNames=["通常","高確","BONUS","AT","上位AT"];
@@ -314,6 +352,12 @@ function stateBanner(main,sub=""){
 }
 
 
+
+function toggleGameMenu(){
+ const m=E("gameMenu");if(m)m.classList.toggle("show");
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&E("gameMenu")?.classList.contains("show"))toggleGameMenu()});
+
 function syncPlayHUD(){
  if(E("hudCredit"))E("hudCredit").textContent=credit.toLocaleString();
  if(E("hudBet"))E("hudBet").textContent=(lastBet||0).toLocaleString();
@@ -326,7 +370,7 @@ function summarizeDraw(h){
  const names={MISS:"ハズレ",BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",GOD:"GOD"};
  let parts=[];
  Object.keys(names).forEach(k=>{let n=ct(h,k);if(n)parts.push(names[k]+"×"+n)});
- specs[machine].forEach(k=>{let n=ct(h,k);if(n)parts.push((cards[k]?.name||k)+"×"+n)});
+ specs[machine].forEach(k=>{let n=ct(h,k);if(n)parts.push((names[k]||k)+"×"+n)});
  E("drawRoles").textContent=parts.length?parts.join("　"):"役なし";
 }
 function showOneScreenEvent(r,pay){

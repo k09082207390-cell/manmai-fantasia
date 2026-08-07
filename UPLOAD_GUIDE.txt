@@ -1,13 +1,11 @@
-万枚ファンタジア Ver.23 SINGLE SCREEN
+万枚ファンタジア Ver.24.1 ARCADE SCREEN FIX
 
-狙い：10枚ドロー周辺だけで1ゲームの状況を把握できるようにする。
+Ver.24でゲームが動かなくなった原因を修正:
+・lastBet / lastPay の二重宣言を解消（JavaScript全体が停止していた）
+・1画面サマリー内の未定義参照 cards[...] を names[...] に修正
+・Node.jsでJavaScript構文チェック済み
 
-追加表示:
-CREDIT / BET / PAYOUT / TURN / STATE
-今回引いたカードの内訳
-成立役・現在状態・今回獲得枚数
+Ver.24のARCADE SCREEN UIと、それ以前のゲームロジック・状態・上位AT・演出・SEは維持。
 
-Ver.22までの上位AT専用ドロー、状態背景、SE、ROLE HIT、DEAD HAND、GOD演出は維持。
-
-GitHub更新:
-ZIPを解凍 → 中身をリポジトリのルートへアップロード → Commit changes
+GitHub:
+ZIP解凍 → 中身を全部リポジトリのルートへアップロード → Commit changes
