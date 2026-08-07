@@ -1,17 +1,7 @@
-万枚ファンタジア Ver.28.2 RUNTIME FIX
-
-原因:
-Ver.26で追加した記録機能の初期化が credit の宣言より先に
-sessionStartCredit=credit を実行しており、ページ読み込み時に
-ReferenceError が発生してJavaScript全体が停止していました。
-
-修正:
-・sessionStartCreditの初期値を2000に変更
-・reset時にsessionStartCreditも2000へ同期
-・Ver.28.1のBET修正、600枚山札、GOD 1/1500、FINAL ZONE、
-  記録、COMPLETE、演出、SEを維持
-・今後のデバッグ用に実行時エラーが画面下に赤く表示される機能を追加
+万枚ファンタジア Ver.29 ONE SCREEN CONSOLE
+・Ver.28.2のゲームロジックを維持
+・10枚カードを横1列へ小型化
+・BET/PLAY CONSOLEを中心に集約
+・選択台情報を操作エリアの下へ移動
+・既存DECK / ZONE / 記録 / GOD 1/1500 / COMPLETE / SEを維持
 ・JavaScript構文チェック済み
-
-GitHub:
-ZIP解凍 → 全ファイルをリポジトリのルートへアップロード → Commit changes

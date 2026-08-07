@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.28.2</title>
+<title>万枚ファンタジア Ver.29</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -225,6 +225,22 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 @keyframes zoneBlink{from{opacity:.6}to{opacity:1;text-shadow:0 0 14px #ff4545}}
 @media(max-width:800px){.playHUD{grid-template-columns:repeat(4,1fr)!important}}
 
+
+/* Ver.29 ONE SCREEN CONSOLE — UI only */
+.drawArea,.playConsole{max-width:1400px;margin-left:auto;margin-right:auto}
+.cards,.cardGrid,.drawGrid{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:7px!important}
+.card{min-width:0!important;width:auto!important}
+.card .pic,.card img{max-height:155px!important;object-fit:cover}
+.card h3,.card .cardName{font-size:12px!important}
+.card small,.card .sub{font-size:8px!important}
+.machineSelected,.selectedMachine{order:20}
+.playConsole{order:10}
+@media(max-width:1100px){
+ .cards,.cardGrid,.drawGrid{gap:4px!important}
+ .card h3,.card .cardName{font-size:10px!important}
+ .card .pic,.card img{max-height:120px!important}
+}
+
 </style></head><body>
 <div id="runtimeError" style="display:none;position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#4b0b12;color:#fff;padding:10px;border:1px solid #ff6b78;border-radius:10px;font:12px/1.4 monospace"></div>
 <div id="recordFX" class="recordFX">
@@ -280,7 +296,7 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28.2 ― RUNTIME FIX</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.29 ― ONE SCREEN CONSOLE</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
