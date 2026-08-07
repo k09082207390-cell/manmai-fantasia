@@ -1,7 +1,15 @@
-万枚ファンタジア Ver.16 BASIC DECK REVOLUTION
-・基本役カードをユーザー提供素材へ更新
-・チャンス目＝リール停止形画像
-・ハズレ＝ヤムチャ
-・確定役＝GOD
-・ROLE CHECKにGOD/ハズレ表示を追加
-GitHub: ZIPを解凍し、全ファイルをリポジトリのルートへアップロード→同名上書き→Commit changes。
+万枚ファンタジア Ver.19 FULL FX + SOUND
+
+今回:
+・カード画像を *_v19.png に変更してブラウザキャッシュを完全回避
+・通常ドロー専用SE
+・強チェリー/強スイカ専用レア役SE
+・ROLE HIT専用SE＋全画面演出＋成立カードフラッシュ
+・DEAD HAND専用全画面演出＋画面シェイク
+・GOD専用SE＋暗転/光線/巨大GOD/PREMIUM RUSH演出
+・GOD＝大量PAYOUT＋FREE×8＋PREMIUM上位AT
+・ヤムチャ3枚＝DEAD HAND
+
+GitHub:
+ZIP解凍 → 中の全ファイルをリポジトリのルートへ Upload files → Commit changes。
+古い card_*.png は残っていても問題ありません。Ver.19は *_v19.png を読むため旧キャッシュを使いません。
