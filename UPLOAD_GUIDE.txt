@@ -1,0 +1,10 @@
+万枚ファンタジア Ver.14 IMAGE DECK
+
+GitHubの manmai-fantasia リポジトリで Add file → Upload files。
+このフォルダ内のファイルを全部アップロードして Commit changes してください。
+すべてルート直下に置く構成なので、images フォルダは不要です。
+
+Ver.14:
+- 共通カード8種を画像カード化
+- 4機種×専用3種＝12種を画像カード化
+- 既存ルール・BET・FREE・ROLE CHECKは維持

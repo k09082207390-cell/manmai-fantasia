@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.13.1</title>
+<title>万枚ファンタジア Ver.14</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -52,6 +52,12 @@
 .howVisual{display:block;width:100%;height:auto;border-radius:13px;border:1px solid #ffffff18}
 .howNote{font-size:11px;color:#bfb3c7;text-align:center;margin:9px 0 2px}
 
+
+.card{position:relative;overflow:hidden;padding:0!important;background:#09070c!important;min-height:150px!important}
+.card img.cardArt{display:block;width:100%;height:100%;min-height:150px;object-fit:cover;border-radius:11px}
+.card .cardFallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:7px}
+@media(max-width:600px){.card{min-height:135px!important}.card img.cardArt{min-height:135px}}
+
 </style></head><body>
 
 <div class="howOverlay" id="howOverlay">
@@ -68,7 +74,7 @@
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.13.1 ― GITHUB ROOT ASSETS</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.14 ― IMAGE DECK</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -93,6 +99,7 @@ let soundOn=true,ctx=null;function tone(f,d=.08,g=.035,w=0,t="triangle"){if(!sou
 const S={bet(){tone(220,.05);tone(330,.05,.03,.05)},flip(){tone(500+Math.random()*80,.035,.018)},rare(){tone(170,.12,.055,0,"sawtooth");tone(700,.15,.03,.07)},hit(){tone(650,.08,.04);tone(900,.12,.04,.07)},free(){[650,850,1100].forEach((f,i)=>tone(f,.12,.045,i*.06))},freeze(){tone(70,.55,.08,0,"sawtooth");tone(950,.5,.05,.4)},premium(){[100,330,550,880,1320].forEach((f,i)=>tone(f,.2,.05,i*.1))}};
 const common=[...Array(18).fill("BEL"),...Array(14).fill("REP"),...Array(6).fill("WCHE"),...Array(2).fill("SCHE"),...Array(5).fill("WSUI"),"SSUI",...Array(5).fill("CHN"),...Array(3).fill("BON")];
 const specs={madoka:["QB","QB","SOUL","SOUL","GRIEF","GRIEF"],geass:["GEASS","GEASS","KNIGHT","KNIGHT","KMF","KMF"],hokuto:["YURIA","YURIA","TOMO","TOMO","SEVEN","SEVEN"],basilisk:["KOGA","KOGA","IGA","IGA","KIZUNA","KIZUNA"]};
+const cardImages={"BEL": "card_bel.png", "REP": "card_rep.png", "WCHE": "card_wche.png", "SCHE": "card_sche.png", "WSUI": "card_wsui.png", "SSUI": "card_ssui.png", "CHN": "card_chn.png", "BON": "card_bon.png", "QB": "card_qb.png", "SOUL": "card_soul.png", "GRIEF": "card_grief.png", "GEASS": "card_geass.png", "KNIGHT": "card_knight.png", "KMF": "card_kmf.png", "YURIA": "card_yuria.png", "TOMO": "card_tomo.png", "SEVEN": "card_seven.png", "KOGA": "card_koga.png", "IGA": "card_iga.png", "KIZUNA": "card_kizuna.png"};
 const names={BEL:"ベル",REP:"リプレイ",WCHE:"弱チェリー",SCHE:"強チェリー",WSUI:"弱スイカ",SSUI:"強スイカ",CHN:"チャンス目",BON:"BONUS",QB:"キュゥべえ",SOUL:"ソウルジェム",GRIEF:"グリーフシード",GEASS:"ギアス",KNIGHT:"黒の騎士団",KMF:"ナイトメア",YURIA:"ユリア",TOMO:"強敵",SEVEN:"北斗七星",KOGA:"甲賀",IGA:"伊賀",KIZUNA:"絆"};
 const cabinetImages={
  madoka:"madoka.png",
@@ -117,7 +124,7 @@ let rushDraws=0;
 let machine="madoka",deck=[],credit=2000,turn=1,lastPay=0,free=0,lastBet=300,kegare=0,combo=1,battle=false,bchain=0,brate=.66,koga=10,iga=10,bt=false,gameOver=false,manmai=false,round=0;
 function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){deck=sh([...common,...specs[machine]])}function ct(h,x){return h.filter(v=>v===x).length}function take(){if(deck.length<10)newDeck();return deck.splice(0,10)}
 function log(s,c=""){E("log").innerHTML=`<span class="${c}">${s}</span><hr style="border-color:#2b2430;border-width:1px 0 0">`+E("log").innerHTML}
-async function reveal(h){E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");for(let i=0;i<10;i++){S.flip();let x=h[i],sl=E("cards").children[i];sl.outerHTML=`<div class="card ${x}">${names[x]}<small>${x}</small></div>`;if(x==="SCHE"||x==="SSUI"){S.rare();await sleep(130)}await sleep(i===9?170:85)}}
+async function reveal(h){E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");for(let i=0;i<10;i++){S.flip();let x=h[i],sl=E("cards").children[i];sl.outerHTML=`<div class="card ${x}"><img class="cardArt" src="${cardImages[x]}" alt="${names[x]}" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'"><div class="cardFallback" style="display:none">${names[x]}<small>${x}</small></div></div>`;if(x==="SCHE"||x==="SSUI"){S.rare();await sleep(130)}await sleep(i===9?170:85)}}
 async function synfx(){S.hit();E("syn").classList.remove("show");void E("syn").offsetWidth;E("syn").classList.add("show");await sleep(600)}
 function fx(title,sub,premium=false){premium?S.premium():S.freeze();E("fx").textContent=title;E("fx").className="fx"+(premium?" rainbow":"");E("fxsub").textContent=sub;E("overlay").classList.add("show");setTimeout(()=>E("overlay").classList.remove("show"),1300)}
 
