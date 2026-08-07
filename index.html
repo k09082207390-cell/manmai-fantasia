@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.25</title>
+<title>万枚ファンタジア Ver.26</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -199,7 +199,27 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 .freeConsole:disabled{opacity:.28!important}
 @media(max-width:650px){.consoleButtons{grid-template-columns:repeat(2,1fr)}.playConsole{bottom:4px}}
 
+
+/* Ver.26 RECORDS & COMPLETE */
+.recordBar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.recordBar>div{padding:7px 5px;text-align:center;border-radius:10px;background:#0b080e;border:1px solid #ffffff18}
+.recordBar small{display:block;font-size:8px;color:#877d8c;font-weight:1000;letter-spacing:.12em}
+.recordBar b{display:block;margin-top:2px;font-size:12px;color:#fff}
+.recordBar>div:nth-child(2) b{color:#ffe277}.recordBar>div:nth-child(3) b{color:#ff8de4}
+.recordFX{position:fixed;inset:0;z-index:1300;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;pointer-events:none;background:radial-gradient(circle,#ffe66b55,#000e 58%)}
+.recordFX.show{display:flex;animation:recordFade 2.3s ease both}
+.recordFXTitle{font-size:clamp(48px,12vw,145px);font-weight:1000;color:#fff;text-shadow:0 0 12px #fff,0 0 38px #ffd94f,6px 7px 0 #704000;animation:recordPop 2s cubic-bezier(.12,.9,.18,1) both}
+.recordFXCoins{font-size:clamp(25px,5vw,55px);font-weight:1000;color:#ffe277;margin-top:8px}
+.recordFXSub{font-size:clamp(13px,2vw,23px);font-weight:1000;color:#fff;margin-top:8px;letter-spacing:.12em}
+@keyframes recordPop{0%{transform:scale(4);opacity:0}22%{transform:scale(.8);opacity:1}38%{transform:scale(1.12)}82%{opacity:1}100%{transform:scale(1.08);opacity:0}}
+@keyframes recordFade{0%,82%{opacity:1}100%{opacity:0}}
+
 </style></head><body>
+<div id="recordFX" class="recordFX">
+ <div id="recordFXTitle" class="recordFXTitle"></div>
+ <div id="recordFXCoins" class="recordFXCoins"></div>
+ <div id="recordFXSub" class="recordFXSub"></div>
+</div>
 <button id="gameMenuBtn" class="gameMenuBtn" onclick="toggleGameMenu()">☰ MENU</button>
 <div id="gameMenu" class="gameMenuOverlay" onclick="if(event.target===this)toggleGameMenu()">
  <div class="gameMenuBox">
@@ -248,7 +268,7 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.25 ― PLAY CONSOLE</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.26 ― RECORDS & COMPLETE</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -272,6 +292,12 @@ body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s
   <div id="drawEvent" class="drawEvent">今回の結果がここに表示されます</div>
 </div>
 <h2 class="drawTitle">10枚ドロー</h2><div class="cards" id="cards"></div>
+<div class="recordBar">
+  <div><small>SESSION</small><b id="sessionCoins">0枚</b></div>
+  <div><small>BEST</small><b id="bestCoins">0枚</b></div>
+  <div><small>RANK</small><b id="recordRank">START</b></div>
+  <div><small>NEXT</small><b id="nextGoal">10,000枚</b></div>
+</div>
 <div class="playConsole">
   <div class="consoleResult">
     <span id="consoleRole">READY</span>
@@ -332,6 +358,67 @@ let rushDraws=0;
 let gameState=0; // 0通常 1高確 2BONUS 3AT 4上位AT
 let highLeft=0,bonusLeft=0,atLeft=0;
 const stateNames=["通常","高確","BONUS","AT","上位AT"];
+
+// Ver.26 output records. Stored locally in the browser.
+let sessionStartCredit=credit;
+let sessionPeak=0;
+let reached10k=false,reached15k=false,reached20k=false;
+let bestRecord=Number(localStorage.getItem("manmaiBestRecord")||0);
+
+function currentOutput(){
+ return Math.max(0,credit-sessionStartCredit);
+}
+function recordRank(v){
+ if(v>=20000)return "COMPLETE";
+ if(v>=15000)return "神域";
+ if(v>=10000)return "万枚";
+ return "挑戦中";
+}
+function nextRecordGoal(v){
+ if(v<10000)return "10,000枚";
+ if(v<15000)return "15,000枚";
+ if(v<20000)return "20,000枚";
+ return "LIMIT BREAK";
+}
+function syncRecords(){
+ const v=currentOutput();
+ sessionPeak=Math.max(sessionPeak,v);
+ if(sessionPeak>bestRecord){
+   bestRecord=sessionPeak;
+   localStorage.setItem("manmaiBestRecord",String(bestRecord));
+ }
+ if(E("sessionCoins"))E("sessionCoins").textContent=v.toLocaleString()+"枚";
+ if(E("bestCoins"))E("bestCoins").textContent=bestRecord.toLocaleString()+"枚";
+ if(E("recordRank"))E("recordRank").textContent=recordRank(v);
+ if(E("nextGoal"))E("nextGoal").textContent=nextRecordGoal(v);
+}
+function recordPresentation(title,coins,sub){
+ const o=E("recordFX");if(!o)return;
+ E("recordFXTitle").textContent=title;
+ E("recordFXCoins").textContent=coins.toLocaleString()+"枚";
+ E("recordFXSub").textContent=sub;
+ o.classList.remove("show");void o.offsetWidth;o.classList.add("show");
+ S.premium();screenShake();
+ setTimeout(()=>o.classList.remove("show"),2300);
+}
+function checkRecords(){
+ const v=currentOutput();
+ if(v>=20000&&!reached20k){
+   reached20k=true;reached15k=true;reached10k=true;
+   recordPresentation("COMPLETE!!",v,"LIMIT BREAK 解放 ― ここからは記録への挑戦");
+   log(`🏆 COMPLETE!! ${v.toLocaleString()}枚突破！ LIMIT BREAKへ。`,"gold");
+ }else if(v>=15000&&!reached15k){
+   reached15k=true;reached10k=true;
+   recordPresentation("神域到達",v,"20,000枚 COMPLETEまであと少し");
+   log(`✨ 神域到達 ${v.toLocaleString()}枚！`,"gold");
+ }else if(v>=10000&&!reached10k){
+   reached10k=true;
+   recordPresentation("万枚突破!!",v,"万枚ファンタジア");
+   log(`🔥 万枚突破！ ${v.toLocaleString()}枚！`,"gold");
+ }
+ syncRecords();
+}
+
 let machine="madoka",deck=[],credit=2000,turn=1,lastPay=0,free=0,lastBet=300,kegare=0,combo=1,battle=false,bchain=0,brate=.66,koga=10,iga=10,bt=false,gameOver=false,manmai=false,round=0;
 function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){deck=sh([...common,...specs[machine]])}function ct(h,x){return h.filter(v=>v===x).length}function take(){if(deck.length<10)newDeck();return deck.splice(0,10)}
 function log(s,c=""){E("log").innerHTML=`<span class="${c}">${s}</span><hr style="border-color:#2b2430;border-width:1px 0 0">`+E("log").innerHTML}
@@ -414,7 +501,7 @@ function syncPlayHUD(){
  if(E("hudPay"))E("hudPay").textContent=(lastPay||0).toLocaleString();
  if(E("hudTurn"))E("hudTurn").textContent=round;
  if(E("hudState"))E("hudState").textContent=stateNames[gameState]||"通常";
- syncConsole();
+ syncConsole();syncRecords();
 }
 function summarizeDraw(h){
  if(!E("drawRoles"))return;
@@ -672,10 +759,10 @@ if(ct(h,"GOD")>0){
  if(credit>=20000){complete();return}
  if(free===0 && rushLevel>0){log(`${upperNames[machine]} 終了。`);rushLevel=0}
  if(credit<100*turn&&free===0){end();return}
- showOneScreenEvent(r,lastPay);if(E("freebtn"))E("freebtn").disabled=false;syncState();syncPlayHUD();ui()
+ showOneScreenEvent(r,lastPay);checkRecords();if(E("freebtn"))E("freebtn").disabled=false;syncState();syncPlayHUD();ui()
 }
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
-function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;lastBet=0;lastPay=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
+function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;lastBet=0;lastPay=0;sessionStartCredit=credit;sessionPeak=0;reached10k=false;reached15k=false;reached20k=false;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
 document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset();stateAtmosphere()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>

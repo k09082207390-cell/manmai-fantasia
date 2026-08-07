@@ -1,15 +1,22 @@
-万枚ファンタジア Ver.25 PLAY CONSOLE
+万枚ファンタジア Ver.26 RECORDS & COMPLETE
 
-追加:
-・10枚ドロー直下に常設PLAY CONSOLE
-・200 BET / 600 BET / 1000 BET / FREE DRAW
-・今回の役とPAYOUTをコンソールにも表示
-・FREE DRAW残数をボタンに表示
-・PCでは画面下部に追従して、10枚カード→結果→次BETを同じ視線で操作
-・既存のゲームロジックを再利用し、別ロジックは作らない方針
-・JavaScript構文チェック済み
+出玉目標:
+10,000枚 = 万枚突破
+15,000枚 = 神域到達
+20,000枚 = COMPLETE!!
 
-Ver.24.1のFIX、状態システム、上位AT、GOD、DEAD HAND、SE、演出は維持。
+20,000枚到達後も終了せず LIMIT BREAK。
+そこから先はスコアアタック。
+
+記録:
+・SESSION = 今回の差枚
+・BEST = ブラウザに保存される自己ベスト
+・RANK = 挑戦中 / 万枚 / 神域 / COMPLETE
+・NEXT = 次の目標
+・BESTはlocalStorage保存なのでページを閉じても同じブラウザなら残る
+
+到達時は専用全画面演出＋SE。
+JavaScript構文チェック済み。
 
 GitHub:
 ZIP解凍 → 全ファイルをリポジトリのルートへアップロード → Commit changes
