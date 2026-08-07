@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.28.1</title>
+<title>万枚ファンタジア Ver.28.2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -226,6 +226,7 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 @media(max-width:800px){.playHUD{grid-template-columns:repeat(4,1fr)!important}}
 
 </style></head><body>
+<div id="runtimeError" style="display:none;position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#4b0b12;color:#fff;padding:10px;border:1px solid #ff6b78;border-radius:10px;font:12px/1.4 monospace"></div>
 <div id="recordFX" class="recordFX">
  <div id="recordFXTitle" class="recordFXTitle"></div>
  <div id="recordFXCoins" class="recordFXCoins"></div>
@@ -279,7 +280,7 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28.1 ― 600 DECK FIX</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.28.2 ― RUNTIME FIX</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -383,7 +384,7 @@ let highLeft=0,bonusLeft=0,atLeft=0;
 const stateNames=["通常","高確","BONUS","AT","上位AT"];
 
 // Ver.26 output records. Stored locally in the browser.
-let sessionStartCredit=credit;
+let sessionStartCredit=2000;
 let sessionPeak=0;
 let reached10k=false,reached15k=false,reached20k=false;
 let bestRecord=Number(localStorage.getItem("manmaiBestRecord")||0);
@@ -830,6 +831,6 @@ if(ct(h,"GOD")>0){
 }
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
-function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;lastBet=0;lastPay=0;sessionStartCredit=credit;sessionPeak=0;reached10k=false;reached15k=false;reached20k=false;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
+function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;lastBet=0;lastPay=0;sessionStartCredit=credit;sessionPeak=0;reached10k=false;reached15k=false;reached20k=false;credit=2000;sessionStartCredit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
 document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset();stateAtmosphere()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>

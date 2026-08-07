@@ -1,11 +1,17 @@
-Ver.28.1 FIX
+万枚ファンタジア Ver.28.2 RUNTIME FIX
 
-Ver.28の600枚山札は維持。
+原因:
+Ver.26で追加した記録機能の初期化が credit の宣言より先に
+sessionStartCredit=credit を実行しており、ページ読み込み時に
+ReferenceError が発生してJavaScript全体が停止していました。
+
 修正:
-・段階BET額を実際のBET額として直接使用。
-・旧ロジックの「BET×turn」二重増加を削除。
-・下部PLAY CONSOLEは必ず現在の段階BETでspin()を直接実行。
-・上部BETボタンも現在ターンのBET額へ同期。
-・CREDIT不足時はログに必要枚数を表示。
-・600枚山札 / GOD 1/1500 / FINAL ZONE / 記録システムは維持。
-・JavaScript構文チェック済み。
+・sessionStartCreditの初期値を2000に変更
+・reset時にsessionStartCreditも2000へ同期
+・Ver.28.1のBET修正、600枚山札、GOD 1/1500、FINAL ZONE、
+  記録、COMPLETE、演出、SEを維持
+・今後のデバッグ用に実行時エラーが画面下に赤く表示される機能を追加
+・JavaScript構文チェック済み
+
+GitHub:
+ZIP解凍 → 全ファイルをリポジトリのルートへアップロード → Commit changes
