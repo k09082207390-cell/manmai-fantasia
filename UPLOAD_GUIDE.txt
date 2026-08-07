@@ -1,15 +1,12 @@
-万枚ファンタジア Ver.19 FULL FX + SOUND
+万枚ファンタジア Ver.22 UPPER AT DRAW
 
-今回:
-・カード画像を *_v19.png に変更してブラウザキャッシュを完全回避
-・通常ドロー専用SE
-・強チェリー/強スイカ専用レア役SE
-・ROLE HIT専用SE＋全画面演出＋成立カードフラッシュ
-・DEAD HAND専用全画面演出＋画面シェイク
-・GOD専用SE＋暗転/光線/巨大GOD/PREMIUM RUSH演出
-・GOD＝大量PAYOUT＋FREE×8＋PREMIUM上位AT
-・ヤムチャ3枚＝DEAD HAND
+上位AT中の10枚ドローを機種別演出化。
+・マギレコ：エンブリオ・イブ覚醒
+・ギアス：アラムの門
+・北斗：無想転生モード
+・バジリスク：宿怨チャレンジ
+上位AT中はBET後、専用全画面タイトル→10 CARDS DRAW→通常よりゆっくりカード公開。
+PREMIUM時はPREMIUM 10 CARDS DRAW表示。
+Ver.21までの状態背景、SE、GOD、DEAD HAND、ROLE HITも維持。
 
-GitHub:
-ZIP解凍 → 中の全ファイルをリポジトリのルートへ Upload files → Commit changes。
-古い card_*.png は残っていても問題ありません。Ver.19は *_v19.png を読むため旧キャッシュを使いません。
+GitHub: ZIP解凍→中身を全部リポジトリのルートへアップロード→Commit changes。

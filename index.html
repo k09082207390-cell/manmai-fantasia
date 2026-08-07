@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.19</title>
+<title>万枚ファンタジア Ver.22</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -79,7 +79,75 @@ body.shake{animation:screenShake .42s linear}
 @keyframes godFade{0%{opacity:0}8%,88%{opacity:1}100%{opacity:0}}
 @keyframes raySpin{to{transform:rotate(360deg)}}
 
+
+/* Ver.20 STATE SYSTEM */
+.statePanel{background:linear-gradient(180deg,#17111d,#0d0a10)!important;border-color:#8f5cff44!important}
+.stateHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:1000;letter-spacing:.08em}
+.stateHead span{color:#bda6ff}.stateHead b{padding:5px 12px;border-radius:999px;background:#24182d;border:1px solid #ffffff22;color:#fff}
+.stateTrack{display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:4px}
+.stateNode{min-width:72px;text-align:center;padding:8px 9px;border-radius:10px;border:1px solid #ffffff18;background:#0a080c;color:#817787;font-size:11px;font-weight:1000;transition:.25s}
+.stateNode.active{color:#fff;border-color:#ffe277aa;box-shadow:0 0 18px #ffe27733;background:#392a16}
+.stateNode.hotState{color:#fff;border-color:#ff6a6aaa;box-shadow:0 0 18px #ff4f4f33;background:#3a1519}
+.stateArrow{color:#5d5262;font-size:20px}.stateInfo{margin-top:9px;color:#aaa0ad;font-size:11px}
+.stateUpFX{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;pointer-events:none;background:radial-gradient(circle,#ff5a2244,#000c 60%)}
+.stateUpFX.show{display:flex;animation:impactFade 1.25s ease both}
+.stateUpWord{font-size:clamp(44px,11vw,130px);font-weight:1000;color:#fff;text-shadow:0 0 15px #fff,0 0 35px #ff542f,5px 6px 0 #67150d;animation:impactPop 1.1s ease both}
+
+
+/* Ver.21 STATE ATMOSPHERE */
+.stateAura{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.72;transition:background .7s ease,filter .7s ease}
+body.state-normal .stateAura{background:radial-gradient(circle at 50% 0,#25142f55,transparent 45%),linear-gradient(#070609,#0b080d)}
+body.state-high .stateAura{background:radial-gradient(circle at 50% 15%,#ff352a44,transparent 42%),repeating-linear-gradient(115deg,#19080b 0 20px,#0a070a 20px 40px);animation:auraPulse .85s ease-in-out infinite alternate}
+body.state-bonus .stateAura{background:radial-gradient(circle,#ffd94a55,transparent 48%),linear-gradient(135deg,#2d1b00,#0b0805 70%);animation:goldPulse 1.1s ease-in-out infinite alternate}
+body.state-at .stateAura{background:radial-gradient(circle at 50% 20%,#3ca9ff55,transparent 48%),linear-gradient(145deg,#06172a,#08080d 70%);animation:auraPulse 1.2s ease-in-out infinite alternate}
+body.state-upper.madoka .stateAura{background:radial-gradient(circle at 50% 20%,#ff72c466,transparent 38%),linear-gradient(135deg,#34113d,#09070d 65%);animation:upperPulse .9s ease-in-out infinite alternate}
+body.state-upper.geass .stateAura{background:radial-gradient(circle at 50% 20%,#ff334f66,transparent 38%),linear-gradient(135deg,#35040b,#070709 65%);animation:upperPulse .9s ease-in-out infinite alternate}
+body.state-upper.hokuto .stateAura{background:radial-gradient(circle at 50% 15%,#68d4ff77,transparent 35%),linear-gradient(160deg,#082539,#020609 68%);animation:upperPulse .8s ease-in-out infinite alternate}
+body.state-upper.basilisk .stateAura{background:radial-gradient(circle at 50% 20%,#8d73ff66,transparent 38%),linear-gradient(135deg,#18113e,#06070b 65%);animation:upperPulse .9s ease-in-out infinite alternate}
+body.state-premium .stateAura{filter:brightness(1.35) saturate(1.3)}
+.stateBanner{position:fixed;left:50%;top:82px;z-index:950;transform:translate(-50%,-40px) scale(.8);opacity:0;pointer-events:none;text-align:center;padding:13px 28px;border-radius:16px;background:#08070ddd;border:1px solid #ffffff33;box-shadow:0 0 35px #000;color:#fff}
+.stateBanner.show{animation:stateBannerIn 1.55s ease both}
+.stateBanner div{font-size:clamp(24px,5vw,52px);font-weight:1000;letter-spacing:.08em;text-shadow:0 0 18px currentColor}
+.stateBanner small{display:block;margin-top:4px;color:#ffe277;font-weight:900;letter-spacing:.12em}
+body.state-high .statePanel{box-shadow:0 0 25px #ff453344!important}
+body.state-bonus .statePanel{box-shadow:0 0 28px #ffd84a55!important;border-color:#ffd84a88!important}
+body.state-at .statePanel{box-shadow:0 0 28px #47b5ff44!important;border-color:#47b5ff88!important}
+body.state-upper .statePanel{box-shadow:0 0 34px #ffffff44!important;border-color:#ffffff99!important}
+@keyframes auraPulse{from{opacity:.45}to{opacity:.9}}
+@keyframes goldPulse{from{opacity:.5;filter:brightness(1)}to{opacity:.95;filter:brightness(1.3)}}
+@keyframes upperPulse{from{opacity:.58;filter:saturate(1)}to{opacity:1;filter:saturate(1.5) brightness(1.15)}}
+@keyframes stateBannerIn{0%{opacity:0;transform:translate(-50%,-35px) scale(.75)}18%,72%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,15px) scale(1.05)}}
+
+
+/* Ver.22 machine-specific upper AT draw */
+.upperDrawFX{position:fixed;inset:0;z-index:997;display:none;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;background:#000e}
+.upperDrawFX.show{display:flex;animation:upperDrawFade 1.45s ease both}
+.upperDrawCore{text-align:center;position:relative;z-index:2;animation:upperDrawPop 1.25s cubic-bezier(.12,.9,.18,1) both}
+.upperDrawMachine{font-size:12px;font-weight:1000;letter-spacing:.35em;color:#fff9;margin-bottom:8px}
+.upperDrawTitle{font-size:clamp(34px,8vw,92px);font-weight:1000;letter-spacing:.06em;color:#fff}
+.upperDrawCount{margin-top:10px;font-size:clamp(14px,2.5vw,28px);font-weight:1000;letter-spacing:.25em;color:#ffe277}
+.upperDrawFX.madoka{background:radial-gradient(circle,#ff77cc66,#38104a 38%,#030205 75%)}.upperDrawFX.madoka .upperDrawTitle{text-shadow:0 0 14px #fff,0 0 42px #ff65d8}
+.upperDrawFX.geass{background:radial-gradient(circle,#ff2c4266,#3c050b 38%,#020203 75%)}.upperDrawFX.geass .upperDrawTitle{text-shadow:0 0 14px #fff,0 0 42px #ff253f}
+.upperDrawFX.hokuto{background:radial-gradient(circle,#77dfff66,#092a40 38%,#010305 75%)}.upperDrawFX.hokuto .upperDrawTitle{text-shadow:0 0 14px #fff,0 0 45px #5bd9ff}
+.upperDrawFX.basilisk{background:radial-gradient(circle,#9b7aff66,#171044 38%,#020205 75%)}.upperDrawFX.basilisk .upperDrawTitle{text-shadow:0 0 14px #fff,0 0 45px #9276ff}
+body.state-upper #cards .card{transition:transform .18s,filter .18s}
+body.state-upper #cards .card:nth-child(odd){animation:upperCardBreath 1.3s ease-in-out infinite alternate}
+body.state-upper #cards .card:nth-child(even){animation:upperCardBreath 1.3s .3s ease-in-out infinite alternate}
+@keyframes upperDrawPop{0%{transform:scale(3);opacity:0;filter:blur(12px)}30%{transform:scale(.85);opacity:1;filter:blur(0)}48%{transform:scale(1.08)}100%{transform:scale(1);opacity:0}}
+@keyframes upperDrawFade{0%,75%{opacity:1}100%{opacity:0}}
+@keyframes upperCardBreath{from{filter:brightness(1)}to{filter:brightness(1.22);transform:translateY(-2px)}}
+
 </style></head><body>
+<div id="upperDrawFX" class="upperDrawFX">
+  <div class="upperDrawCore">
+    <div id="upperDrawMachine" class="upperDrawMachine"></div>
+    <div id="upperDrawTitle" class="upperDrawTitle"></div>
+    <div id="upperDrawCount" class="upperDrawCount">10 CARDS DRAW</div>
+  </div>
+</div>
+<div id="stateAura" class="stateAura"></div>
+<div id="stateBanner" class="stateBanner"><div id="stateBannerMain"></div><small id="stateBannerSub"></small></div>
+<div id="stateUpFX" class="stateUpFX"><div id="stateUpWord" class="stateUpWord">高確</div></div>
 <div id="impactFX" class="impactFX">
   <div class="impactRays"></div>
   <div id="impactText" class="impactText"></div>
@@ -105,7 +173,7 @@ body.shake{animation:screenShake .42s linear}
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.19 ― FULL FX + SOUND</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.22 ― UPPER AT DRAW</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -163,6 +231,9 @@ const upperNames={
 };
 let rushLevel=0; // 0=normal free, 1=upper AT, 2=premium upper AT
 let rushDraws=0;
+let gameState=0; // 0通常 1高確 2BONUS 3AT 4上位AT
+let highLeft=0,bonusLeft=0,atLeft=0;
+const stateNames=["通常","高確","BONUS","AT","上位AT"];
 let machine="madoka",deck=[],credit=2000,turn=1,lastPay=0,free=0,lastBet=300,kegare=0,combo=1,battle=false,bchain=0,brate=.66,koga=10,iga=10,bt=false,gameOver=false,manmai=false,round=0;
 function sh(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function newDeck(){deck=sh([...common,...specs[machine]])}function ct(h,x){return h.filter(v=>v===x).length}function take(){if(deck.length<10)newDeck();return deck.splice(0,10)}
 function log(s,c=""){E("log").innerHTML=`<span class="${c}">${s}</span><hr style="border-color:#2b2430;border-width:1px 0 0">`+E("log").innerHTML}
@@ -170,6 +241,84 @@ async function reveal(h){E("cards").innerHTML=Array.from({length:10},()=>'<div c
 async function synfx(){S.hit();E("syn").classList.remove("show");void E("syn").offsetWidth;E("syn").classList.add("show");await sleep(600)}
 function fx(title,sub,premium=false){premium?S.premium():S.freeze();E("fx").textContent=title;E("fx").className="fx"+(premium?" rainbow":"");E("fxsub").textContent=sub;E("overlay").classList.add("show");setTimeout(()=>E("overlay").classList.remove("show"),1300)}
 
+
+
+
+
+const upperDrawNames={
+ madoka:["MAGIA RECORD","エンブリオ・イブ覚醒"],
+ geass:["CODE GEASS","アラムの門"],
+ hokuto:["HOKUTO","無想転生モード"],
+ basilisk:["BASILISK","宿怨チャレンジ"]
+};
+async function upperDrawPresentation(){
+ if(gameState!==4 && rushLevel<1)return;
+ const o=E("upperDrawFX"),n=upperDrawNames[machine];
+ o.className="upperDrawFX "+machine;
+ E("upperDrawMachine").textContent=n[0];
+ E("upperDrawTitle").textContent=n[1];
+ E("upperDrawCount").textContent=rushLevel===2?"PREMIUM 10 CARDS DRAW":"10 CARDS DRAW";
+ o.classList.add("show");
+ S.premium();screenShake();
+ await sleep(760);
+ o.classList.remove("show");
+}
+
+function stateAtmosphere(){
+ const classes=["state-normal","state-high","state-bonus","state-at","state-upper","state-premium","madoka","geass","hokuto","basilisk"];
+ document.body.classList.remove(...classes);
+ let cls=gameState===1?"state-high":gameState===2?"state-bonus":gameState===3?"state-at":gameState===4?"state-upper":"state-normal";
+ document.body.classList.add(cls,machine);
+ if(rushLevel===2)document.body.classList.add("state-premium");
+}
+function stateBanner(main,sub=""){
+ const b=E("stateBanner");if(!b)return;
+ E("stateBannerMain").textContent=main;E("stateBannerSub").textContent=sub;
+ b.classList.remove("show");void b.offsetWidth;b.classList.add("show");
+ setTimeout(()=>b.classList.remove("show"),1550);
+}
+
+function syncState(){
+ let s=gameState;
+ if(rushLevel>=1)s=4;
+ ["stNormal","stHigh","stBonus","stAT","stUpper"].forEach((id,i)=>{const el=E(id);if(el){el.classList.toggle("active",i===s);el.classList.toggle("hotState",i===1||i===4)}});
+ if(E("stateBadge"))E("stateBadge").textContent=stateNames[s];
+ let info=s===0?"レア役で高確へ。":s===1?`高確 残り${highLeft}G：レア役期待度UP`:s===2?`BONUS 残り${bonusLeft}G：毎ゲームPAYOUT強化`:s===3?`AT 残り${atLeft}G：PAYOUT×1.5`:s===4?`${upperNames[machine]}：PAYOUT×${rushLevel===2?3:2}`:"";
+ if(E("stateInfo"))E("stateInfo").textContent=info;
+ stateAtmosphere();
+}
+function stateUp(name){
+ if(E("stateUpWord"))E("stateUpWord").textContent=name;
+ stateBanner(name,name===upperNames[machine]?"SPECIAL STAGE":"STATE CHANGE");
+ const o=E("stateUpFX");if(o){o.classList.remove("show");void o.offsetWidth;o.classList.add("show");S.roleHit();setTimeout(()=>o.classList.remove("show"),1250)}
+}
+function processStateBeforePay(h){
+ const rare=ct(h,"WCHE")+ct(h,"SCHE")+ct(h,"WSUI")+ct(h,"SSUI")+ct(h,"CHN");
+ const bonus=ct(h,"BON");
+ // GOD overrides everything.
+ if(ct(h,"GOD")){gameState=4;return}
+ if(gameState===0 && rare){
+   const strong=ct(h,"SCHE")+ct(h,"SSUI");
+   const chance=Math.min(.85,.28+strong*.32+ct(h,"CHN")*.12);
+   if(Math.random()<chance){gameState=1;highLeft=3+Math.floor(Math.random()*3);stateUp("高確");log("🔥 高確へ移行！ レア役がさらに熱い。","gold")}
+ }else if(gameState===1){
+   if(bonus || ct(h,"SCHE") || ct(h,"SSUI")){
+     gameState=bonus?2:3;
+     if(gameState===2){bonusLeft=3;stateUp("BONUS");log("🎰 BONUS突入！","gold")}
+     else{atLeft=5;stateUp("AT");log("⚡ AT突入！ 5G継続。","gold")}
+   }
+   highLeft--;if(highLeft<=0&&gameState===1){gameState=0;log("高確終了。")}
+ }else if(gameState===2){
+   bonusLeft--;
+   if(ct(h,"SCHE")||ct(h,"SSUI")){gameState=3;atLeft=6;stateUp("AT");log("⚡ BONUS中の強レア役！ ATへ。","gold")}
+   else if(bonusLeft<=0){gameState=0;log("BONUS終了。")}
+ }else if(gameState===3){
+   atLeft--;
+   if((ct(h,"SCHE")||ct(h,"SSUI")) && specs[machine].some(x=>ct(h,x))){rushLevel=1;gameState=4;free+=2;stateUp(upperNames[machine]);log("🔥 AT中シナジー！ 上位AT突入！","gold")}
+   else if(atLeft<=0){gameState=0;log("AT終了。")}
+ }
+ syncState();
+}
 
 function screenShake(){document.body.classList.remove("shake");void document.body.offsetWidth;document.body.classList.add("shake");setTimeout(()=>document.body.classList.remove("shake"),450)}
 function impactPresentation(title,sub=""){S.roleHit();const o=E("impactFX");E("impactText").textContent=title;E("impactSub").textContent=sub;o.classList.remove("show");void o.offsetWidth;o.classList.add("show");screenShake();setTimeout(()=>o.classList.remove("show"),1400)}
@@ -334,37 +483,38 @@ function evalH(h){
  return{base,extra,msg,fr,pr}
 }
 async function spin(bet=null){
- if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
- let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);
+ if(gameOver)return;let isFree=free>0,activeBet=lastBet,cost=0;if(isFree){free--;S.free()}else{activeBet=bet;cost=activeBet*turn;if(!activeBet||credit<cost)return;credit-=cost;lastBet=activeBet;turn++;S.bet()}round++;await upperDrawPresentation();S.drawStart();E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";document.querySelectorAll(".spin").forEach(b=>b.disabled=true);E("freebtn").disabled=true;
+ let h=take();await reveal(h);if(synergy(h))await synfx();let r=evalH(h);if(gameState===2){r.base+=150;r.msg.push('BONUS状態 +150')}
  await roleCheck(h,r);
  await rolePresentation(h);
+ processStateBeforePay(h);
  let rarePower=ct(h,"SCHE")+ct(h,"SSUI");
  let specCount=specs[machine].filter((x,i,a)=>a.indexOf(x)===i&&ct(h,x)>0).length;
  if(isFree && rushLevel===0 && (rarePower>=1 && specCount>=1)){
-   rushLevel=1;free+=2;fx(upperNames[machine],"上位AT突入！ FREE +2");log(`🔥 ${upperNames[machine]}へ昇格！`,"gold");
+   rushLevel=1;gameState=4;free+=2;fx(upperNames[machine],"上位AT突入！ FREE +2");log(`🔥 ${upperNames[machine]}へ昇格！`,"gold");
  }
  if(isFree && rushLevel===1 && ((ct(h,"SCHE")&&ct(h,"SSUI")) || r.pr)){
-   rushLevel=2;free+=3;fx("PREMIUM",upperNames[machine]+" 覚醒",true);log(`🌈 PREMIUM ${upperNames[machine]}へ昇格！`,"gold");
+   rushLevel=2;gameState=4;free+=3;fx("PREMIUM",upperNames[machine]+" 覚醒",true);log(`🌈 PREMIUM ${upperNames[machine]}へ昇格！`,"gold");stateBanner("PREMIUM",upperNames[machine]);
  }
 if(ct(h,"GOD")>0){
-   rushLevel=2;
+   rushLevel=2;gameState=4;
    free=Math.max(free,8);
-   log("🌟 GOD確定役！ PREMIUM "+upperNames[machine]+"へ直行！","gold");
+   log("🌟 GOD確定役！ PREMIUM "+upperNames[machine]+"へ直行！","gold");stateBanner("GOD MODE",upperNames[machine]);
  }
  if(r.pr){rushLevel=2;free=Math.max(free,6)}
  else if(r.fr && rushLevel===0){rushLevel=1;free=Math.max(free,4)}
  let m=activeBet===100?1:activeBet===300?2.7:4.2;
- let rushPayMult=rushLevel===2?3:rushLevel===1?2:1;
- let pay=Math.floor(r.base*m*rushPayMult);lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
+ let statePayMult=gameState===2?1.35:gameState===3?1.5:1;let rushPayMult=rushLevel===2?3:rushLevel===1?2:1;
+ let pay=Math.floor(r.base*m*rushPayMult*statePayMult);lastPay=pay;credit+=pay;free+=r.extra;E("totalRole").textContent=`TOTAL PAYOUT +${pay.toLocaleString()}`;if(r.fr){await sleep(250);fx(r.pr?"PREMIUM FREEZE":"FREEZE",r.pr?"最上位シナジー成立":"シナジー覚醒",r.pr)}
  log(`<b>ROUND ${round} ${isFree?"FREE":`COST -${cost}`}</b><br>${r.msg.join("<br>")}<br><span class="gold">PAYOUT +${pay.toLocaleString()} / CREDIT ${credit.toLocaleString()}</span>`,r.fr?"hot":"");
  if(!manmai&&credit>=10000){manmai=true;fx("10,000","万枚突破！ COMPLETEまで続行");log("★ 万枚突破！ NEXT TARGET 20,000枚","gold")}
  if(credit>=20000){complete();return}
  if(free===0 && rushLevel>0){log(`${upperNames[machine]} 終了。`);rushLevel=0}
  if(credit<100*turn&&free===0){end();return}
- if(E("freebtn"))E("freebtn").disabled=false;ui()
+ if(E("freebtn"))E("freebtn").disabled=false;syncState();ui()
 }
 function complete(){gameOver=true;localStorage.setItem("mf_comp_"+machine,"1");fx("COMPLETE","20,000枚突破",true);E("ending").innerHTML='<div class="panel ending win">🏆 COMPLETE<br>20,000枚突破！</div>';log("★ COMPLETE達成！","gold");ui()}
 function end(){gameOver=true;E("ending").innerHTML='<div class="panel ending lose">GAME OVER</div>';log("次ターン最低BETを払えない。GAME OVER。","hot");ui()}
-function reset(){rushLevel=0;rushDraws=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";ui()}
-document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
+function reset(){rushLevel=0;rushDraws=0;gameState=0;highLeft=0;bonusLeft=0;atLeft=0;credit=2000;turn=1;lastPay=0;free=0;lastBet=300;kegare=0;combo=1;battle=false;bchain=0;brate=.66;koga=10;iga=10;bt=false;gameOver=false;manmai=false;round=0;newDeck();E("cards").innerHTML=Array.from({length:10},()=>'<div class="slot">?</div>').join("");E("log").innerHTML="CREDIT 2,000枚。万枚は通過点。20,000枚COMPLETEを目指せ。";E("ending").innerHTML="";E("rolePanel").classList.remove("show");E("roleResults").innerHTML="";syncState();ui()}
+document.querySelectorAll(".machine").forEach(x=>x.onclick=()=>{document.querySelectorAll(".machine").forEach(z=>z.classList.remove("selected"));x.classList.add("selected");machine=x.dataset.m;reset();stateAtmosphere()});E("how").onclick=()=>E("howOverlay").classList.add("show");E("closeHow").onclick=()=>E("howOverlay").classList.remove("show");E("rules").onclick=showRules;E("closeRules").onclick=()=>E("ruleOverlay").classList.remove("show");E("reset").onclick=reset;E("sound").onclick=()=>{soundOn=!soundOn;E("sound").textContent=soundOn?"SOUND ON":"SOUND OFF"};reset();
 </script></body></html>
