@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>万枚ファンタジア Ver.29</title>
+<title>万枚ファンタジア Ver.30</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#311842,#070609 65%);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}h1{text-align:center;margin:0;font-size:clamp(34px,7vw,62px);letter-spacing:.07em}.sub{text-align:center;color:#cbbfd2;margin:4px 0 18px}
@@ -241,6 +241,68 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
  .card .pic,.card img{max-height:120px!important}
 }
 
+
+/* Ver.29.1 machine info moved below BET console */
+#currentCabWrap.machineInfoBottom{
+  margin-top:8px!important;
+  min-height:58px!important;
+  padding:8px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  border-color:#4cbcff55!important;
+  background:linear-gradient(90deg,#07121cdd,#10101add)!important;
+}
+#currentCabWrap.machineInfoBottom #currentCabImg{
+  width:42px!important;
+  height:58px!important;
+  object-fit:contain!important;
+  flex:0 0 auto!important;
+}
+#currentCabWrap.machineInfoBottom .currentCabText{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:3px!important;
+}
+#currentCabWrap.machineInfoBottom #currentCabName{
+  font-size:13px!important;
+  color:#fff!important;
+}
+#currentCabWrap.machineInfoBottom #currentCabUpper{
+  font-size:10px!important;
+  color:#9fd7ff!important;
+}
+
+
+/* Ver.30 bottom dashboard */
+.bottomInfoPanel{
+ display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:8px;
+ margin:8px auto 18px;max-width:1400px
+}
+.bottomPanel{
+ min-height:92px;padding:12px 14px;border:1px solid #ffffff18;border-radius:13px;
+ background:linear-gradient(180deg,#11111ae8,#08080ee8);
+ box-shadow:inset 0 0 0 1px #0008
+}
+.bottomPanel small{display:block;font-size:9px;letter-spacing:1.4px;color:#8f8798;margin-bottom:8px;font-weight:900}
+.machineMini{display:flex;align-items:center;gap:12px}
+.machineMini img{width:42px;height:58px;object-fit:contain;border-radius:4px;background:#000}
+.machineMini div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.machineMini b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.machineMini span{font-size:10px;color:#9fd7ff}
+.deckPanel>b{display:block;font-size:24px;color:#fff;line-height:1}
+.deckPanel>b em{font-size:11px;color:#777;font-style:normal;margin-left:3px}
+.deckMeter{height:6px;background:#24242d;border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.deckMeter i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#67d8ff,#ffe46c);border-radius:99px;transition:.25s}
+.deckPanel>span,.zonePanel>span{font-size:9px;color:#8e8797;font-weight:900}
+.zonePanel>b{display:block;font-size:20px;color:#68d9ff;line-height:1.1;margin-bottom:5px}
+.zoneSteps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:9px}
+.zoneSteps i{height:5px;background:#292833;border-radius:99px}
+.zoneSteps i.active{background:#ffe067;box-shadow:0 0 9px #ffe06788}
+body.finalZone .zonePanel{border-color:#ff515177;box-shadow:0 0 22px #ff34341c,inset 0 0 0 1px #0008}
+body.finalZone .zonePanel>b{color:#ff7777}
+@media(max-width:800px){.bottomInfoPanel{grid-template-columns:1fr}.bottomPanel{min-height:74px}}
+
 </style></head><body>
 <div id="runtimeError" style="display:none;position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#4b0b12;color:#fff;padding:10px;border:1px solid #ff6b78;border-radius:10px;font:12px/1.4 monospace"></div>
 <div id="recordFX" class="recordFX">
@@ -296,7 +358,7 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 <div id="ruleContent"></div></div></div>
 
 <div class="synergy" id="syn">SYNERGY!</div><div class="overlay" id="overlay"><div><div class="fx" id="fx">FREEZE</div><div class="subfx" id="fxsub"></div></div></div>
-<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.29 ― ONE SCREEN CONSOLE</div>
+<div class="wrap"><h1>万枚ファンタジア</h1><div class="sub">Ver.30 ― DECK INFO + ZONE PANEL</div>
 <div class="panel"><div class="machines">
 <div class="machine selected" data-m="madoka"><div class="machineCab"><img src="madoka.png" alt="スマスロ マギアレコード 筐体"></div><div class="machineInfo"><h3>スマスロ マギアレコード</h3><small>上位：エンブリオ・イブ覚醒</small></div></div>
 <div class="machine" data-m="geass"><div class="machineCab"><img src="geass.png" alt="スマスロ コードギアス 筐体"></div><div class="machineInfo"><h3>スマスロ コードギアス</h3><small>上位：ギアスラッシュ</small></div></div>
@@ -348,6 +410,66 @@ body.finalZone .stateAura{filter:saturate(1.25) brightness(1.08)}
 
 <script>
 const E=x=>document.getElementById(x),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function syncBottomInfoPanel(){
+ const img=E("currentCabImg"), name=E("currentCabName"), upper=E("currentCabUpper");
+ if(E("panelCabImg")&&img) E("panelCabImg").src=img.src;
+ if(E("panelCabName")&&name) E("panelCabName").textContent=name.textContent;
+ if(E("panelCabUpper")&&upper) E("panelCabUpper").textContent=upper.textContent;
+
+ const remain=Math.max(0,deck.length), total=600, used=Math.max(0,total-remain);
+ if(E("panelDeckRemain"))E("panelDeckRemain").textContent=remain;
+ if(E("panelDeckUsed"))E("panelDeckUsed").textContent=`USED ${used}`;
+ if(E("panelDeckBar"))E("panelDeckBar").style.width=`${Math.max(0,Math.min(100,remain/total*100))}%`;
+
+ const z=turnZone();
+ if(E("panelZone"))E("panelZone").textContent=z;
+ if(E("panelTurnRange"))E("panelTurnRange").textContent=
+   round<=5?"TURN 1–5":round<=10?"TURN 6–10":round<=15?"TURN 11–15":round<=20?"TURN 16–20":"TURN 21+";
+ document.querySelectorAll(".zoneSteps i").forEach(x=>x.classList.toggle("active",x.dataset.z===z));
+}
+window.addEventListener("DOMContentLoaded",()=>{
+ const old=E("currentCabWrap");
+ if(old){
+   old.insertAdjacentHTML("afterend", `
+<section id="bottomInfoPanel" class="bottomInfoPanel">
+  <div class="bottomPanel machinePanel">
+    <small>SELECTED MACHINE</small>
+    <div class="machineMini">
+      <img id="panelCabImg" alt="">
+      <div><b id="panelCabName">---</b><span id="panelCabUpper">---</span></div>
+    </div>
+  </div>
+  <div class="bottomPanel deckPanel">
+    <small>DECK INFO</small>
+    <b><span id="panelDeckRemain">600</span><em>/600</em></b>
+    <div class="deckMeter"><i id="panelDeckBar"></i></div>
+    <span id="panelDeckUsed">USED 0</span>
+  </div>
+  <div class="bottomPanel zonePanel">
+    <small>ZONE</small>
+    <b id="panelZone">OPENING</b>
+    <span id="panelTurnRange">TURN 1–5</span>
+    <div class="zoneSteps">
+      <i data-z="OPENING"></i><i data-z="MIDDLE"></i><i data-z="BATTLE"></i><i data-z="FINAL ZONE"></i>
+    </div>
+  </div>
+</section>
+`);
+   old.style.display="none";
+ }
+ syncBottomInfoPanel();
+});
+
+window.addEventListener("DOMContentLoaded",()=>{
+  const machineInfo=document.getElementById("currentCabWrap");
+  const playConsole=document.querySelector(".playConsole");
+  if(machineInfo && playConsole){
+    playConsole.insertAdjacentElement("afterend", machineInfo);
+    machineInfo.classList.add("machineInfoBottom");
+  }
+});
+
 let soundOn=true,ctx=null;function tone(f,d=.08,g=.035,w=0,t="triangle"){if(!soundOn)return;ctx=ctx||(new(window.AudioContext||window.webkitAudioContext));let o=ctx.createOscillator(),a=ctx.createGain(),s=ctx.currentTime+w;o.type=t;o.frequency.value=f;a.gain.setValueAtTime(g,s);a.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(a);a.connect(ctx.destination);o.start(s);o.stop(s+d)}
 const S={
  bet(){tone(220,.05);tone(330,.05,.03,.05)},
@@ -585,7 +707,7 @@ function syncPlayHUD(){
  if(E("hudPay"))E("hudPay").textContent=(lastPay||0).toLocaleString();
  if(E("hudTurn"))E("hudTurn").textContent=round;
  if(E("hudState"))E("hudState").textContent=stateNames[gameState]||"通常";
- syncConsole();syncRecords();syncTurnSystem();
+ syncConsole();syncRecords();syncTurnSystem();syncBottomInfoPanel();
 }
 function summarizeDraw(h){
  if(!E("drawRoles"))return;
